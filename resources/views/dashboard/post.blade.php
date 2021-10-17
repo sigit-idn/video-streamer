@@ -48,7 +48,7 @@
         <div class="step-2 d-none">
           <div class="mb-3">
             <label for="video_url[0]" class="form-label">Mirror link 1:</label>
-            <input data-required pattern="http.+\..+" class="form-control @error("video_url.0") is-invalid @enderror" name="video_url[0]" value="{{ old("video_url.0") }}" id="video_url[0]" placeholder="Insert URL">
+            <input data-required pattern=".*http.+\..+" class="form-control @error("video_url.0") is-invalid @enderror" name="video_url[0]" value="{{ old("video_url.0") }}" id="video_url[0]" placeholder="Insert URL">
             @error("video_url.0")
           <p class="invalid-feedback">{{ $message }}</p>
             @enderror

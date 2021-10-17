@@ -26,7 +26,10 @@
                                     $youtubeVideoID = [];
                                     preg_match("/(\w|-|_){11}/", $video["video_url"], $youtubeVideoID);
                                 ?>
-                                @if (preg_match("/youtube/", $video["video_url"]))
+                                @if (preg_match("/(<iframe|<embed)/", $video["video_url"]))
+                                {!! $video["video_url"] !!}
+
+                                @elseif (preg_match("/youtu/", $video["video_url"]))
                                 <iframe id="videoPlayer" width="100%" height="550px" src="https://www.youtube.com/embed/{{ $youtubeVideoID[0] }}"
                                    frameborder="0"
                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -163,7 +166,11 @@
         document.querySelectorAll('#mirrorLinks a').forEach(link =>
             link.addEventListener('click', ({target}) => {
 
-                if (/youtube/.test(target.dataset.src)) {
+                if (/(<iframe|<embed)/.test(target.dataset.src)) {
+                    videoPlayer.outerHTML = target.dataset.src
+                    `
+
+                if (/youtu/.test(target.dataset.src)) {
                     videoPlayer.outerHTML = `
                 <iframe id="videoPlayer" width="100%" height="550px" src="https://www.youtube.com/embed/${target.dataset.src.match(/(\w|-|_){11}/)[0]}"
                     frameborder="0"
