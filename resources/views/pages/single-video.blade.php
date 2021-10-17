@@ -26,19 +26,27 @@
                                     $youtubeVideoID = [];
                                     preg_match("/(\w|-|_){11}/", $video["video_url"], $youtubeVideoID);
                                 ?>
-                                 <iframe id="videoPlayer" width="100%" height="550px" src="https://www.youtube.com/embed/{{ $youtubeVideoID[0] }}"
-                                    frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowfullscreen>
-                                </iframe>
+                                @if (preg_match("/youtube/", $video["video_url"]))
+                                <iframe id="videoPlayer" width="100%" height="550px" src="https://www.youtube.com/embed/{{ $youtubeVideoID[0] }}"
+                                   frameborder="0"
+                                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                   allowfullscreen>
+                               </iframe>
+                                @else
+
+                                <video id="videoPlayer" src="{{ $video[video_url] }}" controls style="width: 100%" ></video>
+
+                                @endif
                             </div>
                         </div>
 
-                        <div class="gen-btn-container d-flex flex-wrap flex-md-nowrap justify-content-between w-100" id="mirrorLinks">
+                        <div class="gen-btn-container d-flex flex-wrap flex-md-nowrap justify-content-between w-100">
                             @if (count($video->chapters))
-                            <a href="javascript:void(0)" class="gen-button p-1 pe-2 p-md-3 bg-dark" id="chapterToggle">Chapters</a>
+                            <a href="javascript:void(0)" class="gen-button p-1 pe-2 p-md-3 bg-dark"
+                            onclick="document.querySelector('#chapters').classList.toggle('d-none')"
+                            >Chapters</a>
                             @endif
-                            <div class="d-flex justify-content-end flex-row-reverse">
+                            <div class="d-flex justify-content-end flex-row-reverse" id="mirrorLinks">
                                 <a class="gen-button p-1 pe-2 p-md-3 text-capitalize text-md-uppercase" href="javascript:void(0)" data-src="{{ $video["video_url"] }}">
                                     <span class="button-text">Mirror 1</span>
                                 </a>
@@ -154,7 +162,20 @@
         const videoPlayer = document.querySelector("#videoPlayer");
         document.querySelectorAll('#mirrorLinks a').forEach(link =>
             link.addEventListener('click', ({target}) => {
-                videoPlayer.src = videoPlayer.src.replace(/(\w|-|_){11}/, target.dataset.src.match(/(\w|-|_){11}/)[0])
+
+                if (/youtube/.test(target.dataset.src)) {
+                    videoPlayer.outerHTML = `
+                <iframe id="videoPlayer" width="100%" height="550px" src="https://www.youtube.com/embed/${target.dataset.src.match(/(\w|-|_){11}/)[0]}"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+                    `
+                } else {
+                    videoPlayer.outerHTML = `
+                    <video id="videoPlayer" src="${ target.dataset.src }" controls style="width: 100%" >
+                    `
+                }
             }
             )
         )
@@ -169,10 +190,6 @@
             target.innerHTML = "Show " + (isMore ? "more..." : "less...")
             videoDescription.innerHTML = !isMore ? description : excerpt
 
-        })
-
-        document.querySelector("#chapterToggle").addEventListener("click", () => {
-            document.querySelector('#chapters').classList.toggle('d-none')
         })
 
         function onPlayerReady(event) {

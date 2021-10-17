@@ -90,11 +90,11 @@ Route::get("/tag/{tag}", function($tag) {
     return view("pages.search", [
         "title" => "Videos in tag",
         "tag" => $tag,
-        "videos" => Video::where("tags", "ilike", "%$tag%")->paginate(12)]);
+        "videos" => Video::where("tags", "like", "%$tag%")->paginate(12)]);
 });
 
 Route::get("/search", function(Request $request) {
     return view("pages.search", [
         "title" => "Search results",
-        "videos" => Video::where("title", "ilike", "%$request->s%")->paginate(12)]);
+        "videos" => Video::where("title", "like", "%$request->s%")->paginate(12)]);
 });

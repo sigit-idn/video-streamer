@@ -15,11 +15,11 @@ class CreateChaptersTable extends Migration
     {
         Schema::create('chapters', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("video_id");
+            $table->foreignId("video_id", 20);
             $table->time('start_pos');
             $table->time('end_pos');
-            $table->text('chapter_name');
-            $table->string('url')->nullable();
+            $table->text('chapter_name', 10000);
+            $table->string('url', 200)->nullable();
             $table->timestamps();
         });
     }

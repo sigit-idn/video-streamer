@@ -15,20 +15,18 @@ class CreateVideosTable extends Migration
     {
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->string("title");
-            $table->string("slug")->unique();
-            $table->string("video_url");
-            $table->string("video_url_2")->nullable();
-            $table->string("video_url_3")->nullable();
-            $table->string("video_url_4")->nullable();
-            $table->string("video_url_5")->nullable();
+            $table->foreignId('user_id', 20);
+            $table->string("title", 200);
+            $table->string("slug", 200)->unique();
+            $table->string("video_url", 200);
+            $table->string("video_url_2", 200)->nullable();
+            $table->string("video_url_3", 200)->nullable();
+            $table->string("video_url_4", 200)->nullable();
+            $table->string("video_url_5", 200)->nullable();
             // $table->string("category");
-            $table->string("tags")->nullable();
-            $table->text("description")->nullable();
-            $table->string("thumbnail")->nullable();
-            $table->integer("likes")->default(0);
-            $table->integer("views")->default(0);
+            $table->string("tags", 200)->nullable();
+            $table->text("description", 10000)->nullable();
+            $table->string("thumbnail", 200)->nullable();
             $table->timestamps();
         });
     }
