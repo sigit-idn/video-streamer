@@ -15,6 +15,17 @@
                                             <a href="/" aria-current="page">Home</a>
                                         </li>
                                         <li class="menu-item d-md-none">
+                                                <form role="search" method="get" class="search-form" action="/search">
+                                                    <label>
+                                                        <span class="screen-reader-text"></span>
+                                                        <input type="search" class="search-field" placeholder="Search …"
+                                                            value="" name="s">
+                                                    </label>
+                                                    <button type="submit" class="search-submit"><span
+                                                            class="screen-reader-text"></span></button>
+                                                </form>
+                                        </li>
+                                        <li class="menu-item d-md-none">
                                             <a href="/dashboard" aria-current="page">Dashboard</a>
                                         </li>
                                         <li class="menu-item d-md-none">
