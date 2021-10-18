@@ -2134,6 +2134,7 @@ Breadcrum
 .gen-breadcrumb-container .breadcrumb .breadcrumb-item+.breadcrumb-item::before {
     content: "\f125";
     font-size: 12px;
+    margin-top: 5px;
     font-family: "Ionicons";
     padding-right: 15px;
 }
@@ -3970,7 +3971,7 @@ Carousel Movies
     height: 100%;
     display: inline-block;
     opacity: 0.4;
-    background: rgb(12, 17, 27);
+    background: rgba(12, 17, 27, 30);
     transition: all 0.5s ease-in-out;
     transition: all 0.5s ease-in-out;
     -moz-transition: all 0.5s ease-in-out;
@@ -3980,7 +3981,7 @@ Carousel Movies
 }
 
 .gen-carousel-movies-style-1:hover .gen-movie-contain .gen-movie-img:before {
-    opacity: 0.9;
+    opacity: 0.7;
 }
 
 /*===============*/

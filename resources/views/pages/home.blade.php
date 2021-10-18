@@ -11,12 +11,12 @@
 
     <!-- breadcrumb -->
     <?php
-    $randomVideo = $videos->random(1)[0];
-    $randomYoutubeVideoID = [];
-    preg_match("/(\w|-|_){11}/", $randomVideo["video_url"], $randomYoutubeVideoID)
+    $headerVideo = $videos[0];
+    $headerYoutubeVideoID = [];
+    preg_match("/(\w|-|_){11}/", $headerVideo["video_url"], $randomYoutubeVideoID)
     ?>
-    <div class="gen-breadcrumb" style="background-image: url('{{$randomVideo["thumbnail"] ? "/storage/" . $video['thumbnail']: "https://i.ytimg.com/vi/" . $randomYoutubeVideoID[0] . "/mqdefault.jpg" }}');">
-        <div class="container">
+    <div class="gen-breadcrumb" style="background-image: url('{{$headerVideo["thumbnail"] ? "/storage/" . $headerVideo['thumbnail']: "https://i.ytimg.com/vi/" . $randomYoutubeVideoID[0] . "/hq720.jpg" }}');">
+        <div class="container position-relative">
             <div class="row align-items-center">
                 <div class="col-lg-12">
                     <nav aria-label="breadcrumb">
@@ -25,7 +25,7 @@
                         </div>
                         <div class="gen-breadcrumb-container">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html"><i
+                                <li class="breadcrumb-item"><a href="/"><i
                                             class="fas fa-home mr-2"></i>Home</a></li>
                                 <li class="breadcrumb-item active">Videos</li>
                             </ol>
@@ -64,9 +64,9 @@
                                           </div>
                                       </div>
                                       <div class="gen-info-contain">
-                                          <div class="gen-movie-info">
+                                          <div class="gen-movie-info lh-1">
                                               <h3 class="shadow"><a href="/video/{{ $video->slug }}">{{ $video->title }}</a></h3>
-                                              <small class="text-warning shadow">{{ count($video->chapters) }} Chapter{{ count($video->chapters) > 1 ? "s" : ''  }}</small>
+                                              <small class="text-warning lh-1 shadow">{{ count($video->chapters) }} Chapter{{ count($video->chapters) > 1 ? "s" : ''  }}</small>
                                           </div>
                                       </div>
                                   </div>

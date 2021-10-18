@@ -26,7 +26,7 @@
                                     $youtubeVideoID = [];
                                     preg_match("/(\w|-|_){11}/", $video["video_url"], $youtubeVideoID);
                                 ?>
-                                @if (preg_match("/(<iframe|<embed)/", $video["video_url"]))
+                                @if (preg_match("/(<iframe|<embed|<video)/", $video["video_url"]))
                                 {!! $video["video_url"] !!}
 
                                 @elseif (preg_match("/youtu/", $video["video_url"]))
@@ -90,14 +90,14 @@
                                                 @endforeach
                                             </li>
                                             @endif
-                                            <li>
+                                            {{-- <li>
                                                 <a href="#"><span>{{ $video['category'] }}</span></a>
-                                            </li>
+                                            </li> --}}
                                         </ul>
                                     </div>
                                     <p>
-                                        <h3 class="lead" id="videoDescription">
-                                            {{ $video["description"] }}
+                                        <h3 class="fs-6 lh-base fw-normal" id="videoDescription">
+                                            {!! $video["description"] !!}
                                         </h3>
                                     </p>
                                     @if (strlen($video["description"]) > 200)
@@ -162,74 +162,38 @@
     <!-- Back-to-Top end -->
 
     <script>
-        const videoPlayer = document.querySelector("#videoPlayer");
-        document.querySelectorAll('#mirrorLinks a').forEach(link =>
-            link.addEventListener('click', ({target}) => {
+document.querySelectorAll("#mirrorLinks a").forEach((link) =>
+  link.addEventListener("click", () => {
+    if (/(<iframe|<embed|<video)/.test(link.dataset.src)) {
+      document.querySelector("#videoPlayer").outerHTML = link.dataset.src;
+    } else if (/youtu/.test(link.dataset.src)) {
+      document.querySelector("#videoPlayer").outerHTML = `
+				<iframe id="videoPlayer" width="100%" height="550px" src="https://www.youtube.com/embed/${link.dataset.src.match(/(\w|-|_){11}/)[0]}"
+						frameborder="0"
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+						allowfullscreen>
+				</iframe>
+						`;
+    } else {
+      document.querySelector("#videoPlayer").outerHTML = `
+						<video id="videoPlayer" src="${link.dataset.src}" controls style="width: 100%" >
+						`;
+    }
+  })
+);
 
-                if (/(<iframe|<embed)/.test(target.dataset.src)) {
-                    videoPlayer.outerHTML = target.dataset.src
-                    `
-
-                if (/youtu/.test(target.dataset.src)) {
-                    videoPlayer.outerHTML = `
-                <iframe id="videoPlayer" width="100%" height="550px" src="https://www.youtube.com/embed/${target.dataset.src.match(/(\w|-|_){11}/)[0]}"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen>
-                </iframe>
-                    `
-                } else {
-                    videoPlayer.outerHTML = `
-                    <video id="videoPlayer" src="${ target.dataset.src }" controls style="width: 100%" >
-                    `
-                }
-            }
-            )
-        )
-
-        const videoDescription = document.querySelector('#videoDescription');
-        const excerpt = videoDescription.innerHTML.slice(0, 200) + "...";
-        const description = videoDescription.innerHTML;
-        videoDescription.innerHTML = excerpt
-        let isMore = true
-        document.querySelector("#descriptionToggle").addEventListener("click", ({target}) => {
-            isMore = !isMore
-            target.innerHTML = "Show " + (isMore ? "more..." : "less...")
-            videoDescription.innerHTML = !isMore ? description : excerpt
-
-        })
-
-        function onPlayerReady(event) {
-            return console.log(event)
-                event.target.playVideo();
-
-                /// Time tracking starting here
-
-                var lastTime = -1;
-                var interval = 1000;
-
-                var checkPlayerTime = function () {
-                    if (lastTime != -1) {
-                        if(player.getPlayerState() == YT.PlayerState.PLAYING ) {
-                            var t = player.getCurrentTime();
-
-                            //console.log(Math.abs(t - lastTime -1));
-
-                            ///expecting 1 second interval , with 500 ms margin
-                            if (Math.abs(t - lastTime - 1) > 0.5) {
-                                // there was a seek occuring
-                                console.log("seek"); /// fire your event here !
-                            }
-                        }
-                    }
-                    lastTime = player.getCurrentTime();
-                    setTimeout(checkPlayerTime, interval); /// repeat function call in 1 second
-                }
-                setTimeout(checkPlayerTime, interval); /// initial call delayed
-            }
-            function onPlayerStateChange(event) {
-
-            }
+const videoDescription = document.querySelector("#videoDescription");
+const excerpt = videoDescription.innerHTML.slice(0, 200) + "...";
+const description = videoDescription.innerHTML;
+videoDescription.innerHTML = excerpt;
+let isMore = true;
+document
+  .querySelector("#descriptionToggle")
+  .addEventListener("click", ({ target }) => {
+    isMore = !isMore;
+    target.innerHTML = "Show " + (isMore ? "more..." : "less...");
+    videoDescription.innerHTML = !isMore ? description : excerpt;
+  });
 
     </script>
 

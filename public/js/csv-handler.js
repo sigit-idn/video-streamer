@@ -23,7 +23,7 @@ if (document.querySelector("#uploadCsv")) {
                     <td><input required pattern="[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}" class="form-control" name="start_pos[${i}]" maxlength="8" value="${rows[0]}"></td>
                     <td><input required pattern="[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}" class="form-control" name="end_pos[${i}]" maxlength="8" value="${rows[1]}"></td>
                     <td><textarea required name="chapter_name[${i}]" class="form-control">${rows[2]}</textarea></td>
-                    <td><input pattern="http.+\\..+" class="form-control" name="url[${i}]" value="${rows[3]}"></td>
+                    <td><input pattern="http.+\\..+" class="form-control" placeholder="Insert URL" name="url[${i}]" value="${rows[3]}"></td>
                     <td>
                     <a class="btn btn-outline-primary" onclick="insertRow(this)"> <i class="bi bi-plus"></i> </a>
                     <a class="btn btn-outline-danger ms-1" onclick="removeRow(this)"> <i class="bi bi-trash"></i> </a>
@@ -52,7 +52,7 @@ function insertRow (element) {
 	<td><input required pattern="[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}" class="form-control" name="start_pos" maxlength="8" value="0:00:00"></td>
 	<td><input required pattern="[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}" class="form-control" name="end_pos" maxlength="8" value="0:00:00"></td>
 	<td><textarea required name="chapter_name" class="form-control"></textarea></td>
-	<td><input pattern="http.+\\..+" class="form-control" name="url"></td>
+	<td><input pattern="http.+\\..+" class="form-control" placeholder="Insert URL" name="url"></td>
 	<td>
 	<a class="btn btn-outline-primary" onclick="insertRow(this)"> <i class="bi bi-plus"></i> </a>
 	<a class="btn btn-outline-danger ms-1" onclick="removeRow(this)"> <i class="bi bi-trash"></i> </a>

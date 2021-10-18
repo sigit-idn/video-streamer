@@ -11,6 +11,16 @@
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                 <div id="gen-menu-contain" class="gen-menu-contain">
                                     <ul id="gen-main-menu" class="navbar-nav ml-auto">
+                                        <li class="menu-item d-md-none">
+                                            <div class="gen-btn-container">
+                                                <a href="register.html" class="gen-button">
+                                                    <div class="gen-button-block">
+                                                        <span class="gen-button-line-left"></span>
+                                                        <span class="gen-button-text">Subscribe</span>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </li>
                                         <li class="menu-item">
                                             <a href="/" aria-current="page">Home</a>
                                         </li>
@@ -25,12 +35,24 @@
                                                             class="screen-reader-text"></span></button>
                                                 </form>
                                         </li>
+                                        @auth
+
                                         <li class="menu-item d-md-none">
                                             <a href="/dashboard" aria-current="page">Dashboard</a>
                                         </li>
                                         <li class="menu-item d-md-none">
                                             <a href="/logout" aria-current="page">Logout</a>
                                         </li>
+                                        @else
+                                        {{-- <li>
+                                        <a href="/login"><i class="fas fa-sign-in-alt"></i>
+                                            login </a>
+                                        </li>
+                                        <li>
+                                        <a href="/register"><i class="fa fa-user"></i>
+                                            Register </a>
+                                        </li> --}}
+                                    @endauth
                                     </ul>
                                 </div>
                             </div>
@@ -68,28 +90,28 @@
                                                     Logout </a>
                                             </li>
                                             @else
+                                            {{-- <li>
+                                            <a href="/login"><i class="fas fa-sign-in-alt"></i>
+                                                login </a>
+                                            </li>
                                             <li>
-                                                <a href="/login"><i class="fas fa-sign-in-alt"></i>
-                                                    login </a>
-                                                </li>
-                                                <li>
-                                                    <a href="/register"><i class="fa fa-user"></i>
-                                                        Register </a>
-                                                    </li>
+                                            <a href="/register"><i class="fa fa-user"></i>
+                                                Register </a>
+                                            </li> --}}
 
                                             @endauth
                                             <!-- Library Menu -->
                                         </ul>
                                     </div>
                                 </div>
-                                {{-- <div class="gen-btn-container">
+                                <div class="gen-btn-container">
                                     <a href="register.html" class="gen-button">
                                         <div class="gen-button-block">
                                             <span class="gen-button-line-left"></span>
                                             <span class="gen-button-text">Subscribe</span>
                                         </div>
                                     </a>
-                                </div> --}}
+                                </div>
                             </div>
                             <button class="navbar-toggler" type="button" data-toggle="collapse"
                                 data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"

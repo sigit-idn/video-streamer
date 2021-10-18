@@ -34,7 +34,7 @@
                 @if (isset($tag))
                 <p>Showing Videos in tag "{{ $tag }}"</p>
                 @else
-                <p>Search Results</p>
+                <p>Search Results for "{{ $search ?? "" }}"</p>
                 @endif
             </div>
             <div class="row">
