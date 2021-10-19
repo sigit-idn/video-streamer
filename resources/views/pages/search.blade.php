@@ -1,9 +1,19 @@
 @extends('templates.front-end')
 
 @section('main')
+    <?php
+      $youtubeVideoID = [];
+      $headerImage = "";
+      if (count($videos)) {
+          preg_match("/(\w|-|_){11}/", $videos[0]["video_url"], $youtubeVideoID);
 
+          $headerImage = $videos[0]["thumbnail"]
+            ? "/storage/" . $videos[0]['thumbnail']
+            : "https://i.ytimg.com/vi/" . $youtubeVideoID[0] . "/mqdefault.jpg";
+        }
+      ?>
     <!-- breadcrumb -->
-    <div class="gen-breadcrumb" style="background-image: url('images/background/asset-25.jpeg');">
+    <div class="gen-breadcrumb" style="background-image: url('{{ $headerImage }}');">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-12">
@@ -62,42 +72,6 @@
                                             ? "/storage/" . $video['thumbnail']
                                             : "https://i.ytimg.com/vi/" . $youtubeVideoID[0] . "/mqdefault.jpg"}}"
                                             alt="streamlab-image">
-                                          <div class="gen-movie-add">
-                                              <div class="wpulike wpulike-heart">
-                                                  <div class="wp_ulike_general_class wp_ulike_is_not_liked">
-                                                      <button type="button"
-                                                          class="wp_ulike_btn wp_ulike_put_image"></button>
-                                                  </div>
-                                              </div>
-                                              <ul class="menu bottomRight">
-                                                  <li class="share top">
-                                                      <i class="fa fa-share-alt"></i>
-                                                      <ul class="submenu">
-                                                          <li><a href="#" class="facebook"><i
-                                                                      class="fab fa-facebook-f"></i></a>
-                                                          </li>
-                                                          <li><a href="#" class="facebook"><i
-                                                                      class="fab fa-instagram"></i></a>
-                                                          </li>
-                                                          <li><a href="#" class="facebook"><i
-                                                                      class="fab fa-twitter"></i></a></li>
-                                                      </ul>
-                                                  </li>
-                                              </ul>
-                                              <div class="movie-actions--link_add-to-playlist dropdown">
-                                                  <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i
-                                                          class="fa fa-plus"></i></a>
-                                                  <div class="dropdown-menu mCustomScrollbar">
-                                                      <div class="mCustomScrollBox">
-                                                          <div class="mCSB_container">
-                                                              <a class="login-link" href="/login">Sign in to add this
-                                                                  movie to a
-                                                                  playlist.</a>
-                                                          </div>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          </div>
                                           <div class="gen-movie-action">
                                               <a href="/video/{{ $video->slug }}" class="gen-button">
                                                   <i class="fa fa-play"></i>
@@ -107,6 +81,10 @@
                                       <div class="gen-info-contain">
                                           <div class="gen-movie-info">
                                               <h3><a href="/video/{{ $video->slug }}">{{ $video->title }}</a></h3>
+                                              <small class="text-warning lh-1 shadow">
+                                                @foreach (explode(",", $video["tags"]) as $tag)
+                                                  <a href="/tag/{{ $tag }}" class="badge me-1 rounded bg-warning text-dark">{{ $tag }}</a>
+                                              @endforeach</small>
                                           </div>
                                       </div>
                                   </div>
@@ -130,8 +108,8 @@
     <!-- Section-1 End -->
 
     <!-- Back-to-Top start -->
-    <div id="back-to-top">
+    {{-- <div id="back-to-top">
         <a class="top" id="top" href="#top"> <i class="ion-ios-arrow-up"></i> </a>
-    </div>
+    </div> --}}
     <!-- Back-to-Top end -->
     @endsection

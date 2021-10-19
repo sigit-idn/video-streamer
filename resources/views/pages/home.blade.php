@@ -66,7 +66,10 @@
                                       <div class="gen-info-contain">
                                           <div class="gen-movie-info lh-1">
                                               <h3 class="shadow"><a href="/video/{{ $video->slug }}">{{ $video->title }}</a></h3>
-                                              <small class="text-warning lh-1 shadow">{{ count($video->chapters) }} Chapter{{ count($video->chapters) > 1 ? "s" : ''  }}</small>
+                                              <small class="text-warning lh-1 shadow">
+                                                  @foreach (explode(",", $video["tags"]) as $tag)
+                                                    <a href="/tag/{{ $tag }}" class="badge me-1 rounded bg-warning text-dark">{{ $tag }}</a>
+                                                @endforeach</small>
                                           </div>
                                       </div>
                                   </div>
@@ -89,8 +92,8 @@
     <!-- Section-1 End -->
 
     <!-- Back-to-Top start -->
-    <div id="back-to-top">
+    {{-- <div id="back-to-top">
         <a class="top" id="top" href="#top"> <i class="ion-ios-arrow-up"></i> </a>
-    </div>
+    </div> --}}
     <!-- Back-to-Top end -->
     @endsection

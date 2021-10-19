@@ -11,15 +11,18 @@
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                 <div id="gen-menu-contain" class="gen-menu-contain">
                                     <ul id="gen-main-menu" class="navbar-nav ml-auto">
-                                        <li class="menu-item d-md-none">
-                                            <div class="gen-btn-container">
-                                                <a href="register.html" class="gen-button">
-                                                    <div class="gen-button-block">
-                                                        <span class="gen-button-line-left"></span>
-                                                        <span class="gen-button-text">Subscribe</span>
-                                                    </div>
-                                                </a>
-                                            </div>
+                                        <li class="menu-item active d-md-none">
+                                            <a href="#" aria-current="page">Subscribe</a>
+                                            <i class="fa fa-chevron-down gen-submenu-icon"></i>
+                                            <ul class="sub-menu">
+                                                <li class="menu-item">
+                                                    <a target="_blank" rel="noopener noreferrer" href="/" aria-current="page">Main Home</a>
+                                                </li>
+                                                <li class="menu-item">
+                                                    <a target="_blank" rel="noopener noreferrer" href="/" aria-current="page">Movies Home</a>
+                                                </li>
+                                            </ul>
+                                        </li>
                                         </li>
                                         <li class="menu-item">
                                             <a href="/" aria-current="page">Home</a>
@@ -104,13 +107,39 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="gen-btn-container">
-                                    <a href="register.html" class="gen-button">
+                                <div class="gen-btn-container position-relative" style="width: 150px">
+                                    {{-- <a href="javascript:void(0)" class="gen-button">
                                         <div class="gen-button-block">
                                             <span class="gen-button-line-left"></span>
                                             <span class="gen-button-text">Subscribe</span>
                                         </div>
-                                    </a>
+                                    </a> --}}
+                                    <a href="javascript:void(0)"
+                                    onclick="this.nextElementSibling.classList.toggle('d-none')"
+                                    class="gen-button w-100 text-center">Subscribe</a>
+                                    <div class="position-absolute w-100 d-none">
+                                        <ul class="list-group">
+                                            <li class="list-group-item bg-dark">
+                                                <a href="/" target="_blank" rel="noopener noreferrer">
+                                                    Main Home </a>
+                                            </li>
+                                            <li class="list-group-item bg-dark">
+                                                <a href="/" target="_blank" rel="noopener noreferrer">
+                                                    Movies Home
+                                                </a>
+                                            </li>
+                                            {{-- <li>
+                                            <a href="/login"><i class="fas fa-sign-in-alt"></i>
+                                                login </a>
+                                            </li>
+                                            <li>
+                                            <a href="/register"><i class="fa fa-user"></i>
+                                                Register </a>
+                                            </li> --}}
+
+                                            <!-- Library Menu -->
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                             <button class="navbar-toggler" type="button" data-toggle="collapse"

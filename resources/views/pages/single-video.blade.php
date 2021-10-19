@@ -35,6 +35,12 @@
                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                    allowfullscreen>
                                </iframe>
+                                @elseif (preg_match("/embed/", $video["video_url"]))
+                                <iframe id="videoPlayer" width="100%" height="550px" src="{{ $video["video_url"] }}"
+                                   frameborder="0"
+                                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                   allowfullscreen>
+                               </iframe>
                                 @else
 
                                 <video id="videoPlayer" src="{{ $video[video_url] }}" controls style="width: 100%" ></video>
@@ -43,13 +49,9 @@
                             </div>
                         </div>
 
-                        <div class="gen-btn-container d-flex flex-wrap flex-md-nowrap justify-content-between w-100">
-                            @if (count($video->chapters))
-                            <a href="javascript:void(0)" class="gen-button p-1 pe-2 p-md-3 bg-dark"
-                            onclick="document.querySelector('#chapters').classList.toggle('d-none')"
-                            >Chapters</a>
-                            @endif
-                            <div class="d-flex justify-content-end flex-row-reverse" id="mirrorLinks">
+                        <div class="flex justify-content-end">
+
+                            <div class="d-flex flex-row-reverse w-100" id="mirrorLinks">
                                 <a class="gen-button p-1 pe-2 p-md-3 text-capitalize text-md-uppercase" href="javascript:void(0)" data-src="{{ $video["video_url"] }}">
                                     <span class="button-text">Mirror 1</span>
                                 </a>
@@ -63,19 +65,6 @@
                             </div>
                         </div>
 
-                        <ul class="list-group d-none overflow-scroll px-2" style="height: 40vh" id="chapters">
-                            <li class="list-group-item bg-dark text-white border-bottom mb-2"><h3>Chapters</h3></li>
-                            @foreach ($video->chapters as $chapter)
-                            <li class="list-group-item bg-dark text-white mb-1">
-                                <span class="text-warning">{{ $chapter["start_pos"] }} - {{ $chapter["end_pos"] }}</span>
-                                <p class="mb-1">{{ $chapter["chapter_name"] }}</p>
-                                <a href="{{ $chapter["url"] }}">{{ $chapter["url"] }}</a>
-                            </li>
-                            @endforeach
-                        </ul>
-
-                        <div class="w-100 overflow-scroll">
-                        </div>
                         <div class="col-lg-12">
                             <div class="single-video">
                                 <div class="gen-single-video-info">
@@ -83,7 +72,6 @@
                                     <div class="gen-single-meta-holder">
                                         <ul>
                                             @if ($video["tags"])
-
                                             <li>Tags:
                                                 @foreach (explode(",", $video["tags"]) as $tag)
                                                 <a href="/tag/{{ $tag }}" class="badge ms-2 rounded bg-info text-dark">{{ $tag }}</a>
@@ -103,6 +91,26 @@
                                     @if (strlen($video["description"]) > 200)
                                     <a href="javascript:void(0)" id="descriptionToggle">Show more...</a>
                                     @endif
+
+                                        @if (count($video->chapters))
+                                        <div class="bg-dark text-white border-bottom d-flex py-2 px-3 justify-content-between me-2 align-items-center">
+                                            <h3 class="lead">Clips Detail</h3>
+                                            <a href="javascript:void(0)" onclick="
+                                                document.querySelector('#clips').classList.toggle('d-none')
+                                            ">show/hide</a>
+                                        </div>
+                                        <ul class="list-group overflow-scroll pe-2" id="clips" style="height: 40vh" id="chapters">
+                                            @foreach ($video->chapters as $chapter)
+                                            <li class="list-group-item bg-dark text-white mb-1 d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <span class="text-warning">{{ $chapter["start_pos"] }} - {{ $chapter["end_pos"] }}</span>
+                                                    <p class="mb-1">{{ $chapter["chapter_name"] }}</p>
+                                                </div>
+                                                <a class="gen-button py-1 px-2" href="{{ $chapter["url"] }}">Buy Now</a>
+                                            </li>
+                                            @endforeach
+                                        </ul>
+                                        @endif
 
                                 </div>
                             </div>
@@ -136,7 +144,10 @@
                                                   <div class="gen-info-contain">
                                                       <div class="gen-movie-info">
                                                           <h3 class="shadow"><a href="/video/{{ $video->slug }}">{{ $video->title }}</a></h3>
-                                                          <small class="text-warning shadow">{{ count($video->chapters) }} Chapter{{ count($video->chapters) > 1 ? "s" : ''  }}</small>
+                                                          <small class="text-warning lh-1 shadow">
+                                                            @foreach (explode(",", $video["tags"]) as $tag)
+                                                              <a href="/tag/{{ $tag }}" class="badge me-1 rounded bg-warning text-dark">{{ $tag }}</a>
+                                                          @endforeach</small>
                                                       </div>
                                                   </div>
                                               </div>
@@ -156,9 +167,9 @@
     <!-- Single Video End -->
 
     <!-- Back-to-Top start -->
-    <div id="back-to-top">
+    {{-- <div id="back-to-top">
         <a class="top" id="top" href="#top"> <i class="ion-ios-arrow-up"></i> </a>
-    </div>
+    </div> --}}
     <!-- Back-to-Top end -->
 
     <script>
@@ -169,6 +180,14 @@ document.querySelectorAll("#mirrorLinks a").forEach((link) =>
     } else if (/youtu/.test(link.dataset.src)) {
       document.querySelector("#videoPlayer").outerHTML = `
 				<iframe id="videoPlayer" width="100%" height="550px" src="https://www.youtube.com/embed/${link.dataset.src.match(/(\w|-|_){11}/)[0]}"
+						frameborder="0"
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+						allowfullscreen>
+				</iframe>
+						`;
+    } else if (/embed/.test(link.dataset.src)) {
+      document.querySelector("#videoPlayer").outerHTML = `
+				<iframe id="videoPlayer" width="100%" height="550px" src="${link.dataset.src}"
 						frameborder="0"
 						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 						allowfullscreen>

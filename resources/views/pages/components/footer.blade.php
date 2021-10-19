@@ -8,7 +8,7 @@
                             <div class="widget">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <img src="images/logo-1.png" class="gen-footer-logo" alt="gen-footer-logo">
+                                        <img src="/images/logo-1.png" class="gen-footer-logo" alt="gen-footer-logo">
                                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                                         </p>
                                         <ul class="social-link">
