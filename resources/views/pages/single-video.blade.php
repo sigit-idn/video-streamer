@@ -97,7 +97,7 @@
                                             <h3 class="lead">Clips Detail</h3>
                                             <a href="javascript:void(0)" onclick="
                                                 document.querySelector('#clips').classList.toggle('d-none')
-                                            ">show/hide</a>
+                                            ">hide/show</a>
                                         </div>
                                         <ul class="list-group overflow-scroll pe-2" id="clips" style="height: 40vh" id="chapters">
                                             @foreach ($video->chapters as $chapter)
