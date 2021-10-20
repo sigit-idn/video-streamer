@@ -94,10 +94,11 @@ Route::get("/tag/{tag}", function($tag) {
     $videos = Video::where("title", "like", "%$tag%")
     ->orWhere("tags", "like", "%$tag%")
     ->orWhere("description", "like", "%$tag%")
+    ->distinct()
     ->get();
 
     foreach (
-        Chapter::where("chapter_name", "like", "%$tag%")->get()->unique()
+        Chapter::where("chapter_name", "like", "%$tag%")->distinct()->get()
         as $chapter) {
             $videos->push($chapter->video);
         };
@@ -116,6 +117,12 @@ Route::get("/search", function(Request $request) {
         ->orWhere("description", "like", "%$request->s%")
         ->distinct()
         ->get();
+
+        foreach (
+            Chapter::where("chapter_name", "like", "%$request->s%")->distinct()->get()
+            as $chapter) {
+                $videos->push($chapter->video);
+            };
 
         return view("pages.search", [
             "title" => "Search results",
