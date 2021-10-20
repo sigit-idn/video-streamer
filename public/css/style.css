@@ -3968,10 +3968,11 @@ Carousel Movies
     z-index: 9;
     left: 0;
     width: 100%;
-    height: 35%;
+    height: 38%;
     display: inline-block;
     /* opacity: 0.4; */
-    background-image: linear-gradient(to top, #00000066 80%, transparent);
+    background-color: #0005;
+    /* background-image: linear-gradient(to top, #00000088 88%, transparent); */
     /* background: rgba(12, 17, 27, 30); */
     transition: all 0.5s ease-in-out;
     transition: all 0.5s ease-in-out;

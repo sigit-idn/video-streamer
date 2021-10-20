@@ -48,10 +48,10 @@
 <script src="/js/script.js"></script>
 
 <script>
-    document.querySelectorAll('.page-link').forEach(link => {
+    document.querySelectorAll('.page-link')?.forEach(link => {
         link.classList.add('bg-dark', 'border-0', 'text-danger')
     })
-    document.querySelector('.page-item.active .page-link').className = "page-link bg-danger border-0 text-white"
+    document.querySelector('.page-item.active .page-link')?.className = "page-link bg-danger border-0 text-white"
 </script>
 
 @endsection

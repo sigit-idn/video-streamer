@@ -14,7 +14,7 @@
       ?>
     <!-- breadcrumb -->
     <div class="gen-breadcrumb" style="background-image: url('{{ $headerImage }}');">
-        <div class="container">
+        <div class="container position-relative">
             <div class="row align-items-center">
                 <div class="col-lg-12">
                     <nav aria-label="breadcrumb">
@@ -41,11 +41,19 @@
     <section class="gen-section-padding-3">
         <div class="container">
             <div class="row">
-                @if (isset($tag))
-                <p>Showing Videos in tag "{{ $tag }}"</p>
-                @else
-                <p>Search Results for "{{ $search ?? "" }}"</p>
-                @endif
+                <div class="d-flex align-items-center"
+                >Found {{ $videos->count() }} results for "{{ $tag ?? $search }}" by
+                <form action="/search" class="d-flex">
+                    <input type="hidden" name="s" value="{{ $search  ?? ""}}">
+                    <select name="by" id="searchBy" class="bg-transparent border-0 text-danger">
+                        <option value="all">all</option>
+                        <option value="title">title</option>
+                        <option value="tags">tags</option>
+                        <option value="description">description</option>
+                        <option value="clips">clips</option>
+                    </select>
+                </form>
+                </div>
             </div>
             <div class="row">
                 <div class="col-lg-12">
@@ -98,7 +106,11 @@
                 <div class="col-lg-12">
                     <div class="gen-pagination">
                         <nav aria-label="Page navigation">
-                            {{ $videos->withQueryString()->links() }}
+                            @if (method_exists($videos, "withQueryString"))
+                                {{ $videos->withQueryString()->links() }}
+                            @elseif (method_exists($videos, "links"))
+                                {{ $videos->links() }}
+                            @endif
                         </nav>
                     </div>
                 </div>
@@ -112,4 +124,13 @@
         <a class="top" id="top" href="#top"> <i class="ion-ios-arrow-up"></i> </a>
     </div> --}}
     <!-- Back-to-Top end -->
+
+    <script>
+        document.querySelectorAll("#searchBy option").forEach(option => {
+            option.selected = option.value == window.location.href.match(/(?<=by=)\w+/)
+        })
+        document.querySelector("#searchBy").addEventListener('change', ({target}) =>
+            target.parentElement.submit()
+            )
+    </script>
     @endsection

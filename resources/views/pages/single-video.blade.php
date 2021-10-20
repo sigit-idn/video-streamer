@@ -26,31 +26,24 @@
                                     $youtubeVideoID = [];
                                     preg_match("/(\w|-|_){11}/", $video["video_url"], $youtubeVideoID);
                                 ?>
-                                @if (preg_match("/(<iframe|<embed|<video)/", $video["video_url"]))
+                                @if (preg_match("/<iframe|<embed|<video/", $video["video_url"]))
                                 {!! $video["video_url"] !!}
 
                                 @elseif (preg_match("/youtu/", $video["video_url"]))
-                                <iframe id="videoPlayer" width="100%" height="550px" src="https://www.youtube.com/embed/{{ $youtubeVideoID[0] }}"
-                                   frameborder="0"
-                                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                   allowfullscreen>
+                                <iframe allowfullscreen id="videoPlayer" width="100%" height="550px" src="https://www.youtube.com/embed/{{ $youtubeVideoID[0] }}">
                                </iframe>
-                                @elseif (preg_match("/embed/", $video["video_url"]))
-                                <iframe id="videoPlayer" width="100%" height="550px" src="{{ $video["video_url"] }}"
-                                   frameborder="0"
-                                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                   allowfullscreen>
+                                @elseif (preg_match("/embed|play/", $video["video_url"]))
+                                <iframe allowfullscreen id="videoPlayer" width="100%" height="550px" src="{{ $video["video_url"] }}">
                                </iframe>
                                 @else
 
-                                <video id="videoPlayer" src="{{ $video[video_url] }}" controls style="width: 100%" ></video>
+                                <video id="videoPlayer" onerror="replaceTag(this)" src="{{ $video[video_url] }}" controls style="width: 100%" ></video>
 
                                 @endif
                             </div>
                         </div>
 
                         <div class="flex justify-content-end">
-
                             <div class="d-flex flex-row-reverse w-100" id="mirrorLinks">
                                 <a class="gen-button p-1 pe-2 p-md-3 text-capitalize text-md-uppercase" href="javascript:void(0)" data-src="{{ $video["video_url"] }}">
                                     <span class="button-text">Mirror 1</span>
@@ -92,26 +85,25 @@
                                     <a href="javascript:void(0)" id="descriptionToggle">Show more...</a>
                                     @endif
 
-                                        @if (count($video->chapters))
-                                        <div class="bg-dark text-white border-bottom d-flex py-2 px-3 justify-content-between me-2 align-items-center">
-                                            <h3 class="lead">Clips Detail</h3>
-                                            <a href="javascript:void(0)" onclick="
-                                                document.querySelector('#clips').classList.toggle('d-none')
-                                            ">hide/show</a>
-                                        </div>
-                                        <ul class="list-group overflow-scroll pe-2" id="clips" style="height: 40vh" id="chapters">
-                                            @foreach ($video->chapters as $chapter)
-                                            <li class="list-group-item bg-dark text-white mb-1 d-flex justify-content-between align-items-center">
-                                                <div>
-                                                    <span class="text-warning">{{ $chapter["start_pos"] }} - {{ $chapter["end_pos"] }}</span>
-                                                    <p class="mb-1">{{ $chapter["chapter_name"] }}</p>
-                                                </div>
-                                                <a class="gen-button py-1 px-2" href="{{ $chapter["url"] }}">Buy Now</a>
-                                            </li>
-                                            @endforeach
-                                        </ul>
-                                        @endif
-
+                                    @if (count($video->chapters))
+                                    <div class="bg-dark text-white border-bottom d-flex py-2 px-3 justify-content-between me-2 align-items-center">
+                                        <h3 class="lead">Clips Detail</h3>
+                                        <a href="javascript:void(0)" onclick="
+                                            document.querySelector('#clips').classList.toggle('d-none')
+                                        ">hide/show</a>
+                                    </div>
+                                    <ul class="list-group overflow-scroll pe-2" id="clips" style="height: 40vh" id="chapters">
+                                        @foreach ($video->chapters as $chapter)
+                                        <li class="list-group-item bg-dark text-white mb-1">
+                                            <div class="text-warning d-flex justify-content-between align-self-center">
+                                                <span>{{ $chapter["start_pos"] }} - {{ $chapter["end_pos"] }}</span>
+                                                <a class="gen-button py-1 px-2 text-nowrap d-flex flex-nowrap" href="{{ $chapter["url"] }}">Buy Now</a>
+                                            </div>
+                                            <p class="mb-1">{{ $chapter["chapter_name"] }}</p>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -179,32 +171,28 @@ document.querySelectorAll("#mirrorLinks a").forEach((link) =>
       document.querySelector("#videoPlayer").outerHTML = link.dataset.src;
     } else if (/youtu/.test(link.dataset.src)) {
       document.querySelector("#videoPlayer").outerHTML = `
-				<iframe id="videoPlayer" width="100%" height="550px" src="https://www.youtube.com/embed/${link.dataset.src.match(/(\w|-|_){11}/)[0]}"
-						frameborder="0"
-						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-						allowfullscreen>
-				</iframe>
-						`;
-    } else if (/embed/.test(link.dataset.src)) {
+        <iframe allowfullscreen id="videoPlayer" width="100%" height="550px" src="https://www.youtube.com/embed/${link.dataset.src.match(/(\w|-|_){11}/)[0]}">
+        </iframe>`;
+    } else if (/embed|play/.test(link.dataset.src)) {
       document.querySelector("#videoPlayer").outerHTML = `
-				<iframe id="videoPlayer" width="100%" height="550px" src="${link.dataset.src}"
-						frameborder="0"
-						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-						allowfullscreen>
-				</iframe>
-						`;
+        <iframe allowfullscreen id="videoPlayer" width="100%" height="550px" src="${link.dataset.src}">
+        </iframe>`;
     } else {
       document.querySelector("#videoPlayer").outerHTML = `
-						<video id="videoPlayer" src="${link.dataset.src}" controls style="width: 100%" >
-						`;
+        <video id="videoPlayer" onerror="replaceTag(this)" src="${link.dataset.src}" controls style="width: 100%" >`;
     }
   })
 );
+
+function replaceTag(element){
+    element.outerHTML = `<iframe allowfullscreen src="${element.src}" id="${element.id}">`
+}
 
 const videoDescription = document.querySelector("#videoDescription");
 const excerpt = videoDescription.innerHTML.slice(0, 200) + "...";
 const description = videoDescription.innerHTML;
 videoDescription.innerHTML = excerpt;
+
 let isMore = true;
 document
   .querySelector("#descriptionToggle")

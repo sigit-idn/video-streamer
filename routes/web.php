@@ -94,35 +94,61 @@ Route::get("/tag/{tag}", function($tag) {
     $videos = Video::where("title", "like", "%$tag%")
     ->orWhere("tags", "like", "%$tag%")
     ->orWhere("description", "like", "%$tag%")
-    ->paginate(6);
+    ->get();
 
     foreach (
-        Chapter::where("chapter_name", "like", "%$tag%")->paginate(6)
+        Chapter::where("chapter_name", "like", "%$tag%")->get()->unique()
         as $chapter) {
-            $videos[] = $chapter->video;
+            $videos->push($chapter->video);
         };
 
     return view("pages.search", [
         "title" => "Videos in tag",
         "tag" => $tag,
-        "videos" => $videos]);
+        "videos" => $videos->unique()
+    ]);
 });
 
 Route::get("/search", function(Request $request) {
-    $videos = Video::where("title", "like", "%$request->s%")
-    ->orWhere("tags", "like", "%$request->s%")
-    ->orWhere("description", "like", "%$request->s%")
-    ->paginate(6);
+    if($request->by == "" || $request->by == "all") {
+        $videos = Video::where("title", "like", "%$request->s%")
+        ->orWhere("tags", "like", "%$request->s%")
+        ->orWhere("description", "like", "%$request->s%")
+        ->distinct()
+        ->get();
 
-    foreach (
-        Chapter::where("chapter_name", "like", "%$request->s%")->paginate(6)
-        as $chapter) {
-            $videos[] = $chapter->video;
-        };
+        return view("pages.search", [
+            "title" => "Search results",
+            "search" => $request->s,
+            "videos" => $videos->unique()
+        ]);
+    }
+    if ($request->by == "clips") {
+        $videos = Chapter::where("chapter_name", "like", "%$request->s%")
+        ->distinct()
+        ->get()
+        ->map(
+            function ($clip) {
+            return $clip->video;
+        });
 
-    return view("pages.search", [
-        "title" => "Search results",
-        "search" => $request->s,
-        "videos" => $videos
-    ]);
+        return view("pages.search", [
+            "title" => "Search results",
+            "search" => $request->s,
+            "videos" => $videos->unique()
+        ]);
+    }
+    else {
+        $videos = Video::where("$request->by", "like", "%$request->s%")
+        ->distinct()
+        ->get();
+
+        return view("pages.search", [
+            "title" => "Search results",
+            "search" => $request->s,
+            "videos" => $videos->unique()
+        ]);
+    }
+
+
 });
