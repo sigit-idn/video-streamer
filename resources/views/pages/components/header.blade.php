@@ -78,7 +78,9 @@
                                 <div class="me-3 text-danger">{{ Auth::user()->name }}</div>
                                 @endauth
                                 <div class="gen-account-holder">
+                                    @auth
                                     <a href="javascript:void(0)" id="gen-user-btn"><i class="fa fa-user"></i></a>
+                                    @endauth
                                     <div class="gen-account-menu">
                                         <ul class="gen-account-menu">
                                             <!-- Pms Menu -->

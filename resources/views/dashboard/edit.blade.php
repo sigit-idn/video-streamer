@@ -71,7 +71,36 @@
           </div>
         </div>
 
-        <h5>Chapters</h5>
+        <div class="d-flex justify-content-between align-items-center">
+            <h5>Clips</h5>
+            <div>
+            <button
+            type="button"
+            class="btn btn-warning position-relative me-3"
+            id="resetClicks"
+            data-slug="{{ $video->slug }}"
+            >
+                <i class="bi bi-arrow-counterclockwise"></i> Reset Page Clicks
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="pageClicks">
+                    {{ $video->page_clicks }}
+                    <span class="visually-hidden">Reset Page Clicks</span>
+                </span>
+                </button>
+
+                <button
+            type="button"
+            class="btn btn-warning position-relative me-3"
+            id="resetViews"
+            data-slug="{{ $video->slug }}"
+            >
+                <i class="bi bi-arrow-counterclockwise"></i> Reset Page Views
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="pageViews">
+                    {{ $video->page_views }}
+                    <span class="visually-hidden">Reset Page Views</span>
+                </span>
+                </button>
+            </div>
+        </div>
         <div>
           <table class="table table-striped table-sm">
             <thead>
@@ -123,4 +152,31 @@
 
     <script src="/js/post.js"></script>
     <script src="/js/csv-handler.js"></script>
+    @csrf
+    <script>
+        document.querySelector('#resetClicks').onclick = ({target}) => {
+            if (confirm("Are you sure to reset page Clicks?")) {
+                fetch("/dashboard/reset-clicks/" + target.dataset.slug,
+                {
+                    headers: {
+                        "X-CSRF-Token": document.querySelector('[name=_token]').value
+                    },
+                    method: "put"
+                })
+                .then(() => document.querySelector('#pageClicks').innerHTML = 0)
+            }
+        }
+        document.querySelector('#resetViews').onclick = ({target}) => {
+            if (confirm("Are you sure to reset page Views?")) {
+                fetch("/dashboard/reset-views/" + target.dataset.slug,
+                {
+                    headers: {
+                        "X-CSRF-Token": document.querySelector('[name=_token]').value
+                    },
+                    method: "put"
+                })
+                .then(() => document.querySelector('#pageViews').innerHTML = 0)
+            }
+        }
+    </script>
 @endsection

@@ -15,6 +15,7 @@
     $headerYoutubeVideoID = [];
     preg_match("/(\w|-|_){11}/", $headerVideo["video_url"], $randomYoutubeVideoID)
     ?>
+
     <div class="gen-breadcrumb" style="background-image: url('{{$headerVideo["thumbnail"] ? "/storage/" . $headerVideo['thumbnail']: "https://i.ytimg.com/vi/" . $randomYoutubeVideoID[0] . "/hq720.jpg" }}');">
         <div class="container position-relative">
             <div class="row align-items-center">
@@ -32,6 +33,9 @@
                         </div>
                     </nav>
                 </div>
+            </div>
+            <div class="typewriter position-absolute end-0 top-0 me-3">
+                <p>Hello World!</p>
             </div>
         </div>
     </div>

@@ -22,8 +22,9 @@
               <th scope="col">Thumbnail</th>
               <th scope="col">Video Title</th>
               <th scope="col">Video URL</th>
-              <th scope="col">Chapters</th>
+              <th scope="col">Clips</th>
               <th scope="col">Action</th>
+              <th scope="col">View Count</th>
             </tr>
           </thead>
           <tbody>
@@ -45,10 +46,27 @@
                 <td>{{ $video["video_url"] }}</td>
                 <td>{{ count($video->chapters) }}</td>
                 <td>
-                  <div class="d-flex">
-                    <a href="/dashboard/edit/{{ $video["slug"] }}" class="btn btn-outline-info me-1"><i class="bi bi-pencil-square"></i></a>
-                    <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#delete-{{ $video->slug }}"><i class="bi bi-trash"></i></button>
-                  </div>
+                    <div class="d-flex">
+                        <a href="/dashboard/edit/{{ $video["slug"] }}" class="btn btn-outline-info me-1"><i class="bi bi-pencil-square"></i></a>
+                        <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#delete-{{ $video->slug }}"><i class="bi bi-trash"></i></button>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-group">
+                    <span class="form-control rounded-0 rounded-start bg-transparent" id="pageViews">
+                        {{ $video->page_views }}
+                    </span>
+                    <div>
+                        <button
+                        type="button"
+                        class="btn btn-secondary rounded-0 rounded-end"
+                        id="resetViews"
+                        data-slug="{{ $video->slug }}"
+                        data-csrf-token="{{ csrf_token() }}"
+                        >
+                        Reset
+                        </button>
+                    </div>
                 </td>
               </tr>
             @endforeach
@@ -79,4 +97,20 @@
         </div>
       </div>
       @endforeach
+
+      <script>
+        document.querySelector('#resetViews').onclick = ({target}) => {
+            if (confirm("Are you sure to reset page Views?")) {
+                fetch("/dashboard/reset-views/" + target.dataset.slug,
+                {
+                    headers: {
+                        "X-CSRF-Token": target.dataset.csrfToken
+                    },
+                    method: "put"
+                })
+                .then(() => document.querySelector('#pageViews').innerHTML = 0)
+            }
+        }
+    </script>
 @endsection
+

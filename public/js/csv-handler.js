@@ -74,7 +74,7 @@ function removeRow (element) {
 	}
 }
 
-document.querySelector("#stepSwitcher").addEventListener("click", event => {
+document.querySelector("#stepSwitcher")?.addEventListener("click", event => {
     event.preventDefault()
     if (!document.querySelector('#csvTable :invalid')) {
         switchStep()

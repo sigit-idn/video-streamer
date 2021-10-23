@@ -25,6 +25,9 @@
                                 <?php
                                     $youtubeVideoID = [];
                                     preg_match("/(\w|-|_){11}/", $video["video_url"], $youtubeVideoID);
+
+                                    $vimeoVideoID = [];
+                                    preg_match("/\d{9}/", $video["video_url"], $vimeoVideoID);
                                 ?>
                                 @if (preg_match("/<iframe|<embed|<video/", $video["video_url"]))
                                 {!! $video["video_url"] !!}
@@ -32,13 +35,14 @@
                                 @elseif (preg_match("/youtu/", $video["video_url"]))
                                 <iframe allowfullscreen id="videoPlayer" width="100%" height="550px" src="https://www.youtube.com/embed/{{ $youtubeVideoID[0] }}">
                                </iframe>
-                                @elseif (preg_match("/embed|play/", $video["video_url"]))
-                                <iframe allowfullscreen id="videoPlayer" width="100%" height="550px" src="{{ $video["video_url"] }}">
-                               </iframe>
-                                @else
-
+                               @elseif (preg_match("/embed|play/", $video["video_url"]))
+                               <iframe allowfullscreen id="videoPlayer" width="100%" height="550px" src="{{ $video["video_url"] }}">
+                            </iframe>
+                            @elseif (preg_match("/vimeo/", $video["video_url"]))
+                            <iframe allowfullscreen id="videoPlayer" width="100%" height="550px" src="https://player.vimeo.com/video/{{ $vimeoVideoID[0] }}">
+                           </iframe>
+                            @else
                                 <video id="videoPlayer" onerror="replaceTag(this)" src="{{ $video[video_url] }}" controls style="width: 100%" ></video>
-
                                 @endif
                             </div>
                         </div>
@@ -164,6 +168,7 @@
     </div> --}}
     <!-- Back-to-Top end -->
 
+        @csrf
     <script>
 document.querySelectorAll("#mirrorLinks a").forEach((link) =>
   link.addEventListener("click", () => {
@@ -177,7 +182,12 @@ document.querySelectorAll("#mirrorLinks a").forEach((link) =>
       document.querySelector("#videoPlayer").outerHTML = `
         <iframe allowfullscreen id="videoPlayer" width="100%" height="550px" src="${link.dataset.src}">
         </iframe>`;
-    } else {
+    } else if (/vimeo/.test(link.dataset.src)) {
+      document.querySelector("#videoPlayer").outerHTML = `
+        <iframe allowfullscreen id="videoPlayer" width="100%" height="550px" src="https://player.vimeo.com/video/${link.dataset.src.match(/\d{9}/)[0]}">
+        </iframe>`;
+    }
+    else {
       document.querySelector("#videoPlayer").outerHTML = `
         <video id="videoPlayer" onerror="replaceTag(this)" src="${link.dataset.src}" controls style="width: 100%" >`;
     }
@@ -185,7 +195,7 @@ document.querySelectorAll("#mirrorLinks a").forEach((link) =>
 );
 
 function replaceTag(element){
-    element.outerHTML = `<iframe allowfullscreen src="${element.src}" id="${element.id}">`
+    element.outerHTML = `<iframe width="100%" height="550px" allowfullscreen src="${element.src}" id="${element.id}">`
 }
 
 const videoDescription = document.querySelector("#videoDescription");
@@ -196,11 +206,23 @@ videoDescription.innerHTML = excerpt;
 let isMore = true;
 document
   .querySelector("#descriptionToggle")
-  .addEventListener("click", ({ target }) => {
+  ?.addEventListener("click", ({ target }) => {
     isMore = !isMore;
     target.innerHTML = "Show " + (isMore ? "more..." : "less...");
     videoDescription.innerHTML = !isMore ? description : excerpt;
   });
+
+  document.onreadystatechange = () => {
+      if (document.readyState == "complete") {
+          fetch("/add-view/" + window.location.href.match(/(?<=\/video\/)\w(\w|\-)+/)[0],
+          {
+              headers: {
+                  "X-CSRF-Token" : document.querySelector('[name=_token]').value
+              },
+              method: "put"
+          })
+      }
+  }
 
     </script>
 

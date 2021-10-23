@@ -7,13 +7,11 @@ use App\Models\Chapter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Validator;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 
 class VideoController extends Controller
 {
-    function post(Request $request) {
+    public function post(Request $request) {
         $chapters = [];
         $validatedData = $request->validate([
             "title" => 'required',
@@ -66,7 +64,7 @@ class VideoController extends Controller
         return redirect("/dashboard")->with("success", "Created video '$video->title' Successfully");
     }
 
-    function edit(Video $video, Request $request) {
+    public function edit(Video $video, Request $request) {
         $chapters = [];
 
         $validatedData = $request->validate([
@@ -115,5 +113,17 @@ class VideoController extends Controller
         }
 
         return redirect("/dashboard")->with("success", "Edited video '$video->title' Successfully");
+    }
+
+    public function resetClicks(Video $video) {
+        $video->update(["page_clicks" => 0]);
+
+        return "Page clicks couter reseted";
+    }
+
+    public function resetViews(Video $video) {
+        $video->update(["page_views" => 0]);
+
+        return "Page views couter reseted";
     }
 }
