@@ -13,10 +13,16 @@
     <?php
     $headerVideo = $videos[0];
     $headerYoutubeVideoID = [];
-    preg_match("/(\w|-|_){11}/", $headerVideo["video_url"], $randomYoutubeVideoID)
+    if (!preg_match("/(\w|-|_){11}/", $headerVideo["video_url"], $headerYoutubeVideoID)) {
+        $headerYoutubeVideoID = [""];
+    };
+
     ?>
 
-    <div class="gen-breadcrumb" style="background-image: url('{{$headerVideo["thumbnail"] ? "/storage/" . $headerVideo['thumbnail']: "https://i.ytimg.com/vi/" . $randomYoutubeVideoID[0] . "/hq720.jpg" }}');">
+    <div class="gen-breadcrumb" style="background-image: url('{{$headerVideo["thumbnail"] ? "/storage/"
+    . $headerVideo['thumbnail']: "https://i.ytimg.com/vi/"
+    . $headerYoutubeVideoID[0]
+    . "/hq720.jpg"}}');">
         <div class="container position-relative">
             <div class="row align-items-center">
                 <div class="col-lg-12">
@@ -55,7 +61,9 @@
                                       <div class="gen-movie-img">
                                           <?php
                                             $youtubeVideoID = [];
-                                            preg_match("/(\w|-|_){11}/", $video["video_url"], $youtubeVideoID)
+                                            if (!preg_match("/(\w|-|_){11}/", $video["video_url"], $youtubeVideoID)) {
+                                                $youtubeVideoID = [""];
+                                            }
                                             ?>
                                           <img
                                           src="{{ $video["thumbnail"] ? "/storage/" . $video['thumbnail'] : "https://i.ytimg.com/vi/" . $youtubeVideoID[0] . "/mqdefault.jpg"}}"

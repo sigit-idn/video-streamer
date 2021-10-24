@@ -115,12 +115,6 @@ class VideoController extends Controller
         return redirect("/dashboard")->with("success", "Edited video '$video->title' Successfully");
     }
 
-    public function resetClicks(Video $video) {
-        $video->update(["page_clicks" => 0]);
-
-        return "Page clicks couter reseted";
-    }
-
     public function resetViews(Video $video) {
         $video->update(["page_views" => 0]);
 

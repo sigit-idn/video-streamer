@@ -74,20 +74,7 @@
         <div class="d-flex justify-content-between align-items-center">
             <h5>Clips</h5>
             <div>
-            <button
-            type="button"
-            class="btn btn-warning position-relative me-3"
-            id="resetClicks"
-            data-slug="{{ $video->slug }}"
-            >
-                <i class="bi bi-arrow-counterclockwise"></i> Reset Page Clicks
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="pageClicks">
-                    {{ $video->page_clicks }}
-                    <span class="visually-hidden">Reset Page Clicks</span>
-                </span>
-                </button>
-
-                <button
+           <button
             type="button"
             class="btn btn-warning position-relative me-3"
             id="resetViews"
@@ -102,15 +89,16 @@
             </div>
         </div>
         <div>
-          <table class="table table-striped table-sm">
+          <table class="table table-striped table-sm mt-3">
             <thead>
               <tr>
-                <th style="width: 12%; max-width: 130px" scope="col">No</th>
+                <th style="width: 5%; max-width: 130px" scope="col">No</th>
                 <th style="width: 12%; max-width: 130px" scope="col">Start</th>
                 <th style="width: 12%; max-width: 130px" scope="col">End</th>
                 <th scope="col">Name</th>
                 <th style="width:18%; max-width: 200px;" scope="col">Buy Here</th>
                 <th style="width:12%; max-width: 130px;" scope="col">Action</th>
+                <th style="width:12%; max-width: 130px;" scope="col">Button Clicks</th>
               </tr>
             </thead>
             <tbody>
@@ -126,6 +114,22 @@
                 <td>
                   <a class="btn btn-outline-primary" onclick="insertRow(this)"> <i class="bi bi-plus"></i> </a>
                   <a class="btn btn-outline-danger ms-1" onclick="removeRow(this)"> <i class="bi bi-trash"></i> </a>
+                </td>
+                <td>
+                    <div class="input-group">
+                    <span class="form-control rounded-0 rounded-start bg-transparent" id="buttonClicks_{{ $loop->index }}">
+                        {{ $chapter->button_clicks }}
+                    </span>
+                    <div>
+                        <button
+                        type="button"
+                        class="btn btn-secondary rounded-0 rounded-end"
+                        id="resetClicks_{{ $loop->index }}"
+                        data-chapter-id="{{ $chapter->id }}"
+                        >
+                        Reset
+                        </button>
+                    </div>
                 </td>
               </tr>
               @endforeach
@@ -154,18 +158,19 @@
     <script src="/js/csv-handler.js"></script>
     @csrf
     <script>
-        document.querySelector('#resetClicks').onclick = ({target}) => {
-            if (confirm("Are you sure to reset page Clicks?")) {
-                fetch("/dashboard/reset-clicks/" + target.dataset.slug,
+        document.querySelectorAll('[id^=resetClicks]').forEach((resetClick, i) =>
+        resetClick.onclick = () => {
+            if (confirm("Are you sure to reset button Clicks?")) {
+                fetch("/dashboard/reset-clicks/" + resetClick.dataset.chapterId,
                 {
                     headers: {
                         "X-CSRF-Token": document.querySelector('[name=_token]').value
                     },
                     method: "put"
                 })
-                .then(() => document.querySelector('#pageClicks').innerHTML = 0)
+                .then(() => document.querySelector(`#buttonClicks_${i}`).innerHTML = 0)
             }
-        }
+        })
         document.querySelector('#resetViews').onclick = ({target}) => {
             if (confirm("Are you sure to reset page Views?")) {
                 fetch("/dashboard/reset-views/" + target.dataset.slug,

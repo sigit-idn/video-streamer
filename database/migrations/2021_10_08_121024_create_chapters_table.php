@@ -20,6 +20,7 @@ class CreateChaptersTable extends Migration
             $table->time('end_pos');
             $table->text('chapter_name', 10000);
             $table->string('url', 200)->nullable();
+            $table->bigInteger("button_clicks")->default(0);
             $table->timestamps();
         });
     }

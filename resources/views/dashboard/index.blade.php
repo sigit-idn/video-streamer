@@ -34,7 +34,9 @@
                 <td>{{ $loop->iteration }}</td>
                 <?php
                 $youtubeVideoID = [];
-                preg_match("/(\w|-|_){11}/", $video["video_url"], $youtubeVideoID)
+                if (!preg_match("/(\w|-|_){11}/", $video["video_url"], $youtubeVideoID)) {
+                    $youtubeVideoID = [""];
+                }
                 ?>
 
                 <td><img src="

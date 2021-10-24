@@ -28,10 +28,6 @@ Route::get('/', function () {
 });
 
 Route::get("/video/{video:slug}", function(Video $video) {
-        $video->update(
-            ["page_clicks" => $video["page_clicks"] + 1]
-        );
-
     return view("pages.single-video", [
         "video" => $video,
         "videos" => Video::all()->random(6),
@@ -42,6 +38,14 @@ Route::get("/video/{video:slug}", function(Video $video) {
 Route::put("/add-view/{video:slug}", function(Video $video) {
     $video->update(
         ["page_views" => $video["page_views"] + 1]
+    );
+
+    return "Page Views increased";
+});
+
+Route::put("/add-click/{chapter}", function(Chapter $chapter) {
+    $chapter->update(
+        ["button_clicks" => $chapter["button_clicks"] + 1]
     );
 
     return "Page Views increased";
@@ -70,7 +74,11 @@ Route::get("/dashboard/edit/{video:slug}", function(Video $video) {
 })->middleware("auth");
 
 Route::put("/dashboard/edit/{video:slug}", [VideoController::class, "edit"])->middleware("auth");
-Route::put("/dashboard/reset-clicks/{video:slug}", [VideoController::class, "resetClicks"])->middleware("auth");
+Route::put("/dashboard/reset-clicks/{chapter}", function (Chapter $chapter) {
+    $chapter->update(["button_clicks" => 0]);
+
+    return "Button clicks couter reseted";
+})->middleware("auth");
 Route::put("/dashboard/reset-views/{video:slug}", [VideoController::class, "resetViews"])->middleware("auth");
 
 Route::delete("/dashboard/delete/{video:slug}", function(Video $video) {

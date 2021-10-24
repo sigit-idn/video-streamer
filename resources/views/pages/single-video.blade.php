@@ -42,8 +42,8 @@
                             <iframe allowfullscreen id="videoPlayer" width="100%" height="550px" src="https://player.vimeo.com/video/{{ $vimeoVideoID[0] }}">
                            </iframe>
                             @else
-                                <video id="videoPlayer" onerror="replaceTag(this)" src="{{ $video[video_url] }}" controls style="width: 100%" ></video>
-                                @endif
+                            <video id="videoPlayer" onerror="replaceTag(this)" src="{{ $video[video_url] }}" controls style="width: 100%" ></video>
+                            @endif
                             </div>
                         </div>
 
@@ -101,7 +101,14 @@
                                         <li class="list-group-item bg-dark text-white mb-1">
                                             <div class="text-warning d-flex justify-content-between align-self-center">
                                                 <span>{{ $chapter["start_pos"] }} - {{ $chapter["end_pos"] }}</span>
-                                                <a class="gen-button py-1 px-2 text-nowrap d-flex flex-nowrap" href="{{ $chapter["url"] }}">Buy Now</a>
+                                                @if ($chapter["url"])
+                                                <a class="gen-button py-1 px-2 text-nowrap d-flex flex-nowrap"
+                                                href="{{ $chapter["url"] }}"
+                                                id="buyButton[{{ $loop->index }}]"
+                                                data-chapter-id="{{ $chapter["id"] }}"
+                                                target="_blank"
+                                                >Buy Now</a>
+                                                @endif
                                             </div>
                                             <p class="mb-1">{{ $chapter["chapter_name"] }}</p>
                                         </li>
@@ -223,6 +230,18 @@ document
           })
       }
   }
+
+  document.querySelectorAll('[id^=buyButton]').forEach(buyButton =>
+  buyButton.addEventListener('click', () =>
+  fetch("/add-click/" + buyButton.dataset.chapterId,
+          {
+              headers: {
+                  "X-CSRF-Token" : document.querySelector('[name=_token]').value
+              },
+              method: "put"
+          })
+  ))
+
 
     </script>
 

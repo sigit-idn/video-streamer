@@ -14,7 +14,7 @@
           <input type="file" class="form-control rounded-0" id="csvFile">
           <button type="submit" class="btn rounded-0 rounded-end btn-primary">Upload</button>
         </form>
-        <p class="text-muted mt-1">Don't have CSV File? <a href="">Download Template</a></p>
+        {{-- <p class="text-muted mt-1">Don't have CSV File? <a href="">Download Template</a></p> --}}
       </div>
 
       <div class="table-responsive mt-3">
