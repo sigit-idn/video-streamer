@@ -1,5 +1,5 @@
     <!--========== Header ==============-->
-    <header id="gen-header" class="gen-header-style-1 gen-has-sticky">
+    <header id="gen-header" class="gen-header-style-1 gen-has-sticky" style="background-color: #111">
         <div class="gen-bottom-header">
             <div class="container">
                 <div class="row">
