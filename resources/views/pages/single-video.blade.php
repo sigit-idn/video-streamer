@@ -5,6 +5,11 @@
 @endsection
 
 @section('main')
+<script>
+function replaceTag(element){
+    element.outerHTML = `<iframe width="100%" height="550px" allowfullscreen src="${element.src}" id="${element.id}">`
+}
+</script>
 
     <!--=========== Loader =============-->
     <div id="gen-loading">
@@ -42,7 +47,7 @@
                             <iframe allowfullscreen id="videoPlayer" width="100%" height="550px" src="https://player.vimeo.com/video/{{ $vimeoVideoID[0] }}">
                            </iframe>
                             @else
-                            <video id="videoPlayer" onerror="replaceTag(this)" src="{{ $video[video_url] }}" controls style="width: 100%" ></video>
+                            <video id="videoPlayer" onerror="replaceTag(this)" src="{{ $video["video_url"] }}" controls style="width: 100%" ></video>
                             @endif
                             </div>
                         </div>
@@ -201,9 +206,6 @@ document.querySelectorAll("#mirrorLinks a").forEach((link) =>
   })
 );
 
-function replaceTag(element){
-    element.outerHTML = `<iframe width="100%" height="550px" allowfullscreen src="${element.src}" id="${element.id}">`
-}
 
 const videoDescription = document.querySelector("#videoDescription");
 const excerpt = videoDescription.innerHTML.slice(0, 200) + "...";
