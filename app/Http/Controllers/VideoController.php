@@ -15,8 +15,10 @@ class VideoController extends Controller
         $chapters = [];
         $validatedData = $request->validate([
             "title" => 'required',
-            "video_url.*" => ['nullable', 'regex:/.*http.+\..+/'],
-            "video_url.0" => ['required', 'regex:/.*http.+\..+/'],
+            "video_url.*" => 'nullable',
+            "video_url.0" => 'required',
+            // "video_url.*" => ['nullable', 'regex:/.*http.+\..+/'],
+            // "video_url.0" => ['required', 'regex:/.*http.+\..+/'],
             "thumbnail" => 'image|file',
             "tags" => "nullable",
             "description" => "nullable"
@@ -69,8 +71,10 @@ class VideoController extends Controller
 
         $validatedData = $request->validate([
             "title" => 'required',
-            "video_url.*" => 'nullable|url',
+            "video_url.*" => 'nullable',
             "video_url.0" => 'required',
+            // "video_url.*" => ['nullable', 'regex:/.*http.+\..+/'],
+            // "video_url.0" => ['required', 'regex:/.*http.+\..+/'],
             "thumbnail" => 'image|file',
             "tags" => "nullable",
             "description" => "nullable"

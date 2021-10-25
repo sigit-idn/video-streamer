@@ -136,7 +136,9 @@ function replaceTag(element){
                                                   <div class="gen-movie-img">
                                                       <?php
                                                         $youtubeVideoID = [];
-                                                        preg_match("/(\w|-|_){11}/", $video["video_url"], $youtubeVideoID)
+                                                        if (!preg_match("/(\w|-|_){11}/", $video["video_url"], $youtubeVideoID)) {
+                                                            $youtubeVideoID = [""];
+                                                        }
                                                         ?>
                                                       <img
                                                       src="{{ $video["thumbnail"]

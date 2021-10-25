@@ -55,28 +55,28 @@
           </div>
           <div class="mb-3">
             <label for="video_url[1]" class="form-label">Mirror link 2:</label>
-            <input pattern="http.+\..+" class="form-control @error("video_url.1") is-invalid @enderror" name="video_url[1]" value="{{ old("video_url.1") }}" id="video_url[1]" placeholder="(Optional) Insert URL">
+            <input pattern=".*http.+\..+" class="form-control @error("video_url.1") is-invalid @enderror" name="video_url[1]" value="{{ old("video_url.1") }}" id="video_url[1]" placeholder="(Optional) Insert URL">
             @error("video_url.1")
           <p class="invalid-feedback">{{ $message }}</p>
             @enderror
           </div>
           <div class="mb-3">
             <label for="video_url[2]" class="form-label">Mirror link 3:</label>
-            <input pattern="http.+\..+" class="form-control @error("video_url.2") is-invalid @enderror" name="video_url[2]" value="{{ old("video_url.2") }}" id="video_url[2]" placeholder="(Optional) Insert URL">
+            <input pattern=".*http.+\..+" class="form-control @error("video_url.2") is-invalid @enderror" name="video_url[2]" value="{{ old("video_url.2") }}" id="video_url[2]" placeholder="(Optional) Insert URL">
             @error("video_url.2")
           <p class="invalid-feedback">{{ $message }}</p>
             @enderror
           </div>
           <div class="mb-3">
             <label for="video_url[3]" class="form-label">Mirror link 4:</label>
-            <input pattern="http.+\..+" class="form-control @error("video_url.3") is-invalid @enderror" name="video_url[3]" value="{{ old("video_url.3") }}" id="video_url[3]" placeholder="(Optional) Insert URL">
+            <input pattern=".*http.+\..+" class="form-control @error("video_url.3") is-invalid @enderror" name="video_url[3]" value="{{ old("video_url.3") }}" id="video_url[3]" placeholder="(Optional) Insert URL">
             @error("video_url.3")
           <p class="invalid-feedback">{{ $message }}</p>
             @enderror
           </div>
           <div class="mb-3">
             <label for="video_url[4]" class="form-label">Mirror link 5:</label>
-            <input pattern="http.+\..+" class="form-control @error("video_url.4") is-invalid @enderror" name="video_url[4]" value="{{ old("video_url.4") }}" id="video_url[4]" placeholder="(Optional) Insert URL">
+            <input pattern=".*http.+\..+" class="form-control @error("video_url.4") is-invalid @enderror" name="video_url[4]" value="{{ old("video_url.4") }}" id="video_url[4]" placeholder="(Optional) Insert URL">
             @error("video_url.4")
           <p class="invalid-feedback">{{ $message }}</p>
             @enderror

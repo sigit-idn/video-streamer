@@ -20,7 +20,8 @@
     ?>
 
     <div class="gen-breadcrumb" style="background-image: url('{{$headerVideo["thumbnail"] ? "/storage/"
-    . $headerVideo['thumbnail']: "https://i.ytimg.com/vi/"
+    . $headerVideo['thumbnail']
+    : "https://i.ytimg.com/vi/"
     . $headerYoutubeVideoID[0]
     . "/hq720.jpg"}}');">
         <div class="container position-relative">
