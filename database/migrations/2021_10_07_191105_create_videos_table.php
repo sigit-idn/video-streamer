@@ -18,11 +18,11 @@ class CreateVideosTable extends Migration
             $table->foreignId('user_id', 20);
             $table->string("title", 200);
             $table->string("slug", 200)->unique();
-            $table->string("video_url", 255);
-            $table->string("video_url_2", 255)->nullable();
-            $table->string("video_url_3", 255)->nullable();
-            $table->string("video_url_4", 255)->nullable();
-            $table->string("video_url_5", 255)->nullable();
+            $table->string("video_url", 3000);
+            $table->string("video_url_2", 3000)->nullable();
+            $table->string("video_url_3", 3000)->nullable();
+            $table->string("video_url_4", 3000)->nullable();
+            $table->string("video_url_5", 3000)->nullable();
             // $table->string("category");
             $table->bigInteger("page_views")->default(0);
             $table->string("tags", 200)->nullable();

@@ -35,7 +35,7 @@ function replaceTag(element){
                                     preg_match("/\d{9}/", $video["video_url"], $vimeoVideoID);
                                 ?>
                                 @if (preg_match("/<iframe|<embed|<video/", $video["video_url"]))
-                                {!! $video["video_url"] !!}
+                                {!! str_replace("<iframe", '<iframe id="videoPlayer"', $video["video_url"]) !!}
 
                                 @elseif (preg_match("/youtu/", $video["video_url"]))
                                 <iframe allowfullscreen id="videoPlayer" width="100%" height="550px" src="https://www.youtube.com/embed/{{ $youtubeVideoID[0] }}">
