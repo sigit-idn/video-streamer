@@ -64,7 +64,7 @@ Route::get("/dashboard/post", function() {
     ]);
 })->middleware("auth");
 
-Route::post("/dashboard/post", [VideoController::class, "post"])->middleware("auth");
+Route::post("/dashboard/post", [VideoController::class, "post"])->middleware("cors");
 
 Route::get("/dashboard/edit/{video:slug}", function(Video $video) {
     return view("dashboard.edit", [
@@ -110,7 +110,7 @@ Route::get("/dashboard/account", function() {
     ]);
 })->middleware("auth");
 
-Route::put("/dashboard/account", [UserController::class, "update"]);
+Route::put("/dashboard/account", [UserController::class, "update"])->middleware("cors");
 
 Route::get("/tag/{tag}", function($tag) {
     $videos = Video::where("title", "like", "%$tag%")
