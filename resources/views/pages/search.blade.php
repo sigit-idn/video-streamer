@@ -26,7 +26,7 @@
                         <div class="gen-breadcrumb-container">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="/"><i
-                                            class="fas fa-home mr-2"></i>Home</a></li>
+                                    class="fas fa-home mr-2"></i>Home</a></li>
                                 <li class="breadcrumb-item active">Videos</li>
                             </ol>
                         </div>

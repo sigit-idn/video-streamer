@@ -27,7 +27,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get("/video/{video:slug}", function(Video $video) {
+Route::get("/video/{video:slug}", function (Video $video) {
     return view("pages.single-video", [
         "video" => $video,
         "videos" => Video::all()->random(6),
@@ -35,7 +35,7 @@ Route::get("/video/{video:slug}", function(Video $video) {
     ]);
 });
 
-Route::put("/add-view/{video:slug}", function(Video $video) {
+Route::put("/add-view/{video:slug}", function (Video $video) {
     $video->update(
         ["page_views" => $video["page_views"] + 1]
     );
@@ -43,7 +43,7 @@ Route::put("/add-view/{video:slug}", function(Video $video) {
     return "Page Views increased";
 });
 
-Route::put("/add-click/{chapter}", function(Chapter $chapter) {
+Route::put("/add-click/{chapter}", function (Chapter $chapter) {
     $chapter->update(
         ["button_clicks" => $chapter["button_clicks"] + 1]
     );
@@ -58,7 +58,7 @@ Route::get("/dashboard",  function () {
     ]);
 })->middleware("auth");
 
-Route::get("/dashboard/post", function() {
+Route::get("/dashboard/post", function () {
     return view("dashboard.post", [
         "title" => "Post a Video"
     ]);
@@ -66,7 +66,7 @@ Route::get("/dashboard/post", function() {
 
 Route::post("/dashboard/post", [VideoController::class, "post"])->middleware("cors");
 
-Route::get("/dashboard/edit/{video:slug}", function(Video $video) {
+Route::get("/dashboard/edit/{video:slug}", function (Video $video) {
     return view("dashboard.edit", [
         "video" => $video,
         "title" => "Edit Video"
@@ -81,7 +81,7 @@ Route::put("/dashboard/reset-clicks/{chapter}", function (Chapter $chapter) {
 })->middleware("auth");
 Route::put("/dashboard/reset-views/{video:slug}", [VideoController::class, "resetViews"])->middleware("auth");
 
-Route::delete("/dashboard/delete/{video:slug}", function(Video $video) {
+Route::delete("/dashboard/delete/{video:slug}", function (Video $video) {
     $video->delete();
     Storage::delete($video->thumbnail);
     return redirect("/dashboard")->with("success", "Delete video '$video->title' successfully.");
@@ -89,11 +89,11 @@ Route::delete("/dashboard/delete/{video:slug}", function(Video $video) {
 
 // Comment from here to disable the account routes
 
-Route::get("/login", function() {
+Route::get("/login", function () {
     return view("login", ["title" => "Login"]);
 })->middleware("guest")->name("login");
 
-Route::get("/register", function() {
+Route::get("/register", function () {
     return view("register", ["title" => "Register"]);
 })->middleware("guest");
 
@@ -104,7 +104,7 @@ Route::get('/logout', [UserController::class, "logout"]);
 
 // Until here
 
-Route::get("/dashboard/account", function() {
+Route::get("/dashboard/account", function () {
     return view("dashboard.account", [
         "title" => "Account"
     ]);
@@ -112,18 +112,17 @@ Route::get("/dashboard/account", function() {
 
 Route::put("/dashboard/account", [UserController::class, "update"])->middleware("cors");
 
-Route::get("/tag/{tag}", function($tag) {
+Route::get("/tag/{tag}", function ($tag) {
     $videos = Video::where("title", "like", "%$tag%")
-    ->orWhere("tags", "like", "%$tag%")
-    ->orWhere("description", "like", "%$tag%")
-    ->distinct()
-    ->get();
+        ->orWhere("tags", "like", "%$tag%")
+        ->orWhere("description", "like", "%$tag%")
+        ->distinct()
+        ->get();
 
-    foreach (
-        Chapter::where("chapter_name", "like", "%$tag%")->distinct()->get()
+    foreach (Chapter::where("chapter_name", "like", "%$tag%")->distinct()->get()
         as $chapter) {
-            $videos->push($chapter->video);
-        };
+        $videos->push($chapter->video);
+    };
 
     return view("pages.search", [
         "title" => "Videos in tag",
@@ -132,19 +131,18 @@ Route::get("/tag/{tag}", function($tag) {
     ]);
 });
 
-Route::get("/search", function(Request $request) {
-    if($request->by == "" || $request->by == "all") {
+Route::get("/search", function (Request $request) {
+    if ($request->by == "" || $request->by == "all") {
         $videos = Video::where("title", "like", "%$request->s%")
-        ->orWhere("tags", "like", "%$request->s%")
-        ->orWhere("description", "like", "%$request->s%")
-        ->distinct()
-        ->get();
+            ->orWhere("tags", "like", "%$request->s%")
+            ->orWhere("description", "like", "%$request->s%")
+            ->distinct()
+            ->get();
 
-        foreach (
-            Chapter::where("chapter_name", "like", "%$request->s%")->distinct()->get()
+        foreach (Chapter::where("chapter_name", "like", "%$request->s%")->distinct()->get()
             as $chapter) {
-                $videos->push($chapter->video);
-            };
+            $videos->push($chapter->video);
+        };
 
         return view("pages.search", [
             "title" => "Search results",
@@ -154,23 +152,23 @@ Route::get("/search", function(Request $request) {
     }
     if ($request->by == "clips") {
         $videos = Chapter::where("chapter_name", "like", "%$request->s%")
-        ->distinct()
-        ->get()
-        ->map(
-            function ($clip) {
-            return $clip->video;
-        });
+            ->distinct()
+            ->get()
+            ->map(
+                function ($clip) {
+                    return $clip->video;
+                }
+            );
 
         return view("pages.search", [
             "title" => "Search results",
             "search" => $request->s,
             "videos" => $videos->unique()
         ]);
-    }
-    else {
+    } else {
         $videos = Video::where("$request->by", "like", "%$request->s%")
-        ->distinct()
-        ->get();
+            ->distinct()
+            ->get();
 
         return view("pages.search", [
             "title" => "Search results",
@@ -178,6 +176,4 @@ Route::get("/search", function(Request $request) {
             "videos" => $videos->unique()
         ]);
     }
-
-
 });
