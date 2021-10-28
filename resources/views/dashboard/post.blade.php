@@ -130,4 +130,17 @@
   <script src="/js/dashboard.js"></script>
   <script src="/js/csv-handler.js"></script>
   <script src="/js/post.js"></script>
+
+  <script>
+      document
+    .querySelector("#postForm")
+    .addEventListener("submit", ({target}) => {
+        target.querySelectorAll("input").forEach(input => {
+            if (/iframe/.test(input.value)) {
+                input.value = input.value.match(/http(\w|[/:=?&.%])+/)[0]
+            }
+        }
+        )
+    });
+  </script>
 @endsection

@@ -25,12 +25,12 @@ class VideoController extends Controller
 
         foreach ($validatedData["video_url"] as $i => $videoUrl) {
             $urlIndex = $i == 0 ? "" : "_" . $i + 1;
-            if (strpos($videoUrl, "src")) {
-                preg_match("/http(\w|\.|:|\/)+/", $videoUrl, $urlMatches);
-                $validatedData["video_url$urlIndex"] = $urlMatches[0];
-            } else {
-                $validatedData["video_url$urlIndex"] = $videoUrl;
-            }
+            // if (strpos($videoUrl, "src")) {
+            //     preg_match("/http(\w|\.|:|\/)+/", $videoUrl, $urlMatches);
+            //     $validatedData["video_url$urlIndex"] = $urlMatches[0];
+            // } else {
+            $validatedData["video_url$urlIndex"] = $videoUrl;
+            // }
         };
 
         $validatedData["user_id"] = Auth::user()->id;
@@ -85,12 +85,12 @@ class VideoController extends Controller
 
         foreach ($validatedData["video_url"] as $i => $videoUrl) {
             $urlIndex = $i == 0 ? "" : "_" . $i + 1;
-            if (strpos($videoUrl, "src")) {
-                preg_match("/http(\w|\.|:|\/)+/", $videoUrl, $urlMatches);
-                $validatedData["video_url$urlIndex"] = $urlMatches[0];
-            } else {
-                $validatedData["video_url$urlIndex"] = $videoUrl;
-            }
+            // if (strpos($videoUrl, "src")) {
+            //     preg_match("/http(\w|\.|:|\/)+/", $videoUrl, $urlMatches);
+            //     $validatedData["video_url$urlIndex"] = $urlMatches[0];
+            // } else {
+            $validatedData["video_url$urlIndex"] = $videoUrl;
+            // }
         };
 
         $validatedData["thumbnail"] = $request->file("thumbnail")

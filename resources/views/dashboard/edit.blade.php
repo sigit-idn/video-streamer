@@ -183,5 +183,16 @@
                 .then(() => document.querySelector('#pageViews').innerHTML = 0)
             }
         }
+
+      document
+    .querySelector("#postForm")
+    .addEventListener("submit", ({target}) => {
+        target.querySelectorAll("input").forEach(input => {
+            if (/iframe/.test(input.value)) {
+                input.value = input.value.match(/http(\w|[/:=?&.%])+/)[0]
+            }
+        }
+        )
+    });
     </script>
 @endsection
