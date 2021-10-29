@@ -135,12 +135,7 @@
       document
     .querySelector("#postForm")
     .addEventListener("submit", ({target}) => {
-        target.querySelectorAll("input").forEach(input => {
-            if (/iframe/.test(input.value)) {
-                input.value = input.value.match(/http(\w|[/:=?&.%])+/)[0]
-            }
-        }
-        )
+        target.querySelectorAll("input").forEach(input => input.value = input.value.replace(/iframe/g, "ifrome") )
     });
   </script>
 @endsection

@@ -54,12 +54,12 @@ function replaceTag(element){
 
                         <div class="flex justify-content-end">
                             <div class="d-flex flex-row-reverse w-100" id="mirrorLinks">
-                                <a class="gen-button p-1 pe-2 p-md-3 text-capitalize text-md-uppercase" href="javascript:void(0)" data-src="{{ $video["video_url"] }}">
+                                <a class="gen-button p-1 pe-2 p-md-3 text-capitalize text-md-uppercase" href="javascript:void(0)" data-src="{{ str_replace("ifrome", "iframe", $video["video_url"]) }}">
                                     <span class="button-text">Mirror 1</span>
                                 </a>
                                 @for ($i = 2; $i <= 5; $i++)
                                 @if ($video["video_url_$i"])
-                                <a class="gen-button p-1 pe-2 p-md-3 text-capitalize text-md-uppercase" href="javascript:void(0)" data-src="{{ $video["video_url_$i"] }}">
+                                <a class="gen-button p-1 pe-2 p-md-3 text-capitalize text-md-uppercase" href="javascript:void(0)" data-src="{{ str_replace("ifrome", "iframe", $video["video_url_$i"]) }}">
                                     <span class="button-text">Mirror {{ $i }}</span>
                                 </a>
                                 @endif
@@ -186,8 +186,9 @@ function replaceTag(element){
     <script>
 document.querySelectorAll("#mirrorLinks a").forEach((link) =>
   link.addEventListener("click", () => {
-    if (/(<iframe|<embed|<video)/.test(link.dataset.src)) {
-      document.querySelector("#videoPlayer").outerHTML = link.dataset.src;
+      const embedTag = link.dataset.src.match(/(<iframe|<embed|<video)/)
+    if (embedTag) {
+      document.querySelector("#videoPlayer").outerHTML = link.dataset.src.replace(embedTag[0], embedTag[0] + ' id="videoPlayer"');
     } else if (/youtu/.test(link.dataset.src)) {
       document.querySelector("#videoPlayer").outerHTML = `
         <iframe allowfullscreen id="videoPlayer" width="100%" height="550px" src="https://www.youtube.com/embed/${link.dataset.src.match(/(\w|-|_){11}/)[0]}">

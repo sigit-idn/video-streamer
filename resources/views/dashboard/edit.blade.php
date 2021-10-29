@@ -8,30 +8,30 @@
       </div>
 
       <div class="table-responsive mt-3" id="csvTable">
-        <form action="/dashboard/edit/{{ $video->slug }}" method="post" enctype="multipart/form-data">
+        <form id="editForm" action="/dashboard/edit/{{ $video->slug }}" method="post" enctype="multipart/form-data">
         @csrf
         @method("put")
 
         <div class="border-bottom mb-3">
           <div class="mb-3">
             <label for="video_url[0]" class="form-label">Mirror link 1:</label>
-            <input class="form-control @error("video_url.0") is-invalid @enderror" name="video_url[0]" id="video_url[0]" value="{{ $video->video_url }}" placeholder="Insert URL" required>
+            <input class="form-control @error("video_url.0") is-invalid @enderror" name="video_url[0]" id="video_url[0]" value="{{ str_replace("ifrome", "iframe", $video->video_url) }}" placeholder="Insert URL" required>
           </div>
           <div class="mb-3">
             <label for="video_url[1]" class="form-label">Mirror link 2:</label>
-            <input class="form-control @error("video_url.1") is-invalid @enderror" name="video_url[1]" id="video_url[1]" value="{{ $video->video_url_2 }}" placeholder="(Optional) Insert URL">
+            <input class="form-control @error("video_url.1") is-invalid @enderror" name="video_url[1]" id="video_url[1]" value="{{ str_replace("ifrome", "iframe", $video->video_url_2) }}" placeholder="(Optional) Insert URL">
           </div>
           <div class="mb-3">
             <label for="video_url[2]" class="form-label">Mirror link 3:</label>
-            <input class="form-control @error("video_url.2") is-invalid @enderror" name="video_url[2]" id="video_url[2]" value="{{ $video->video_url_3 }}" placeholder="(Optional) Insert URL">
+            <input class="form-control @error("video_url.2") is-invalid @enderror" name="video_url[2]" id="video_url[2]" value="{{ str_replace("ifrome", "iframe", $video->video_url_3) }}" placeholder="(Optional) Insert URL">
           </div>
           <div class="mb-3">
             <label for="video_url[3]" class="form-label">Mirror link 4:</label>
-            <input class="form-control @error("video_url.3") is-invalid @enderror" name="video_url[3]" id="video_url[3]" value="{{ $video->video_url_4 }}" placeholder="(Optional) Insert URL">
+            <input class="form-control @error("video_url.3") is-invalid @enderror" name="video_url[3]" id="video_url[3]" value="{{ str_replace("ifrome", "iframe", $video->video_url_4) }}" placeholder="(Optional) Insert URL">
           </div>
           <div class="mb-3">
             <label for="video_url[4]" class="form-label">Mirror link 5:</label>
-            <input class="form-control @error("video_url.4") is-invalid @enderror" name="video_url[4]" id="video_url[4]" value="{{ $video->video_url_5 }}" placeholder="(Optional) Insert URL">
+            <input class="form-control @error("video_url.4") is-invalid @enderror" name="video_url[4]" id="video_url[4]" value="{{ str_replace("ifrome", "iframe", $video->video_url_5) }}" placeholder="(Optional) Insert URL">
           </div>
           <div class="mb-3 row">
             <div class="col-2 @if(!$video->thumbnail)
@@ -158,41 +158,41 @@
     <script src="/js/csv-handler.js"></script>
     @csrf
     <script>
-        document.querySelectorAll('[id^=resetClicks]').forEach((resetClick, i) =>
-        resetClick.onclick = () => {
-            if (confirm("Are you sure to reset button Clicks?")) {
-                fetch("/dashboard/reset-clicks/" + resetClick.dataset.chapterId,
-                {
-                    headers: {
-                        "X-CSRF-Token": document.querySelector('[name=_token]').value
-                    },
-                    method: "put"
-                })
-                .then(() => document.querySelector(`#buttonClicks_${i}`).innerHTML = 0)
-            }
-        })
-        document.querySelector('#resetViews').onclick = ({target}) => {
-            if (confirm("Are you sure to reset page Views?")) {
-                fetch("/dashboard/reset-views/" + target.dataset.slug,
-                {
-                    headers: {
-                        "X-CSRF-Token": document.querySelector('[name=_token]').value
-                    },
-                    method: "put"
-                })
-                .then(() => document.querySelector('#pageViews').innerHTML = 0)
-            }
-        }
+document.querySelectorAll("[id^=resetClicks]").forEach(
+  (resetClick, i) =>
+    (resetClick.onclick = () => {
+      if (confirm("Are you sure to reset button Clicks?")) {
+        fetch("/dashboard/reset-clicks/" + resetClick.dataset.chapterId, {
+          headers: {
+            "X-CSRF-Token": document.querySelector("[name=_token]").value,
+          },
+          method: "put",
+        }).then(
+          () => (document.querySelector(`#buttonClicks_${i}`).innerHTML = 0)
+        );
+      }
+    })
+);
+document.querySelector("#resetViews").onclick = ({ target }) => {
+  if (confirm("Are you sure to reset page Views?")) {
+    fetch("/dashboard/reset-views/" + target.dataset.slug, {
+      headers: {
+        "X-CSRF-Token": document.querySelector("[name=_token]").value,
+      },
+      method: "put",
+    }).then(() => (document.querySelector("#pageViews").innerHTML = 0));
+  }
+};
 
-      document
-    .querySelector("#postForm")
-    .addEventListener("submit", ({target}) => {
-        target.querySelectorAll("input").forEach(input => {
-            if (/iframe/.test(input.value)) {
-                input.value = input.value.match(/http(\w|[/:=?&.%])+/)[0]
-            }
-        }
-        )
-    });
+document
+  .querySelector("#editForm")
+  .addEventListener("submit", ({ target }) =>
+    target
+      .querySelectorAll("input")
+      .forEach(
+        (input) => (input.value = input.value.replace(/iframe/g, "ifrome"))
+      )
+  );
+
     </script>
 @endsection

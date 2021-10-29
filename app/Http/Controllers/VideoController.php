@@ -25,12 +25,7 @@ class VideoController extends Controller
 
         foreach ($validatedData["video_url"] as $i => $videoUrl) {
             $urlIndex = $i == 0 ? "" : "_" . $i + 1;
-            // if (strpos($videoUrl, "src")) {
-            //     preg_match("/http(\w|\.|:|\/)+/", $videoUrl, $urlMatches);
-            //     $validatedData["video_url$urlIndex"] = $urlMatches[0];
-            // } else {
             $validatedData["video_url$urlIndex"] = $videoUrl;
-            // }
         };
 
         $validatedData["user_id"] = Auth::user()->id;
@@ -45,13 +40,6 @@ class VideoController extends Controller
             foreach ($request->get("start_pos") as $i => $startPos) {
                 $urls = [];
                 preg_match("/^http.+\..+/", $request->get("url")[$i], $urls);
-
-                // $request->validate([
-                //     "start_pos" => "required|regex:/\d{1,2}:\d{1,2}:\d{1,2}/",
-                //     "end_pos" => "required|regex:/\d{1,2}:\d{1,2}:\d{1,2}/",
-                //     "chapter_name" => "required",
-                //     "url" =>  "nullable|url",
-                // ]);
 
                 $chapter = [
                     "video_id" => $video->id,
@@ -85,12 +73,7 @@ class VideoController extends Controller
 
         foreach ($validatedData["video_url"] as $i => $videoUrl) {
             $urlIndex = $i == 0 ? "" : "_" . $i + 1;
-            // if (strpos($videoUrl, "src")) {
-            //     preg_match("/http(\w|\.|:|\/)+/", $videoUrl, $urlMatches);
-            //     $validatedData["video_url$urlIndex"] = $urlMatches[0];
-            // } else {
             $validatedData["video_url$urlIndex"] = $videoUrl;
-            // }
         };
 
         $validatedData["thumbnail"] = $request->file("thumbnail")
@@ -127,10 +110,10 @@ class VideoController extends Controller
         return redirect("/dashboard")->with("success", "Edited video '$video->title' Successfully");
     }
 
-    public function resetViews(Video $video)
+    public function deleteVideo(Video $video)
     {
-        $video->update(["page_views" => 0]);
-
-        return "Page views couter reseted";
+        $video->delete();
+        Storage::delete($video->thumbnail);
+        return redirect("/dashboard")->with("success", "Delete video '$video->title' successfully.");
     }
 }
