@@ -1,10 +1,14 @@
-    <!--========== Header ==============-->
+<?php
+    $typewriterText = "Hello World!"
+?>
+
+<!--========== Header ==============-->
     <header id="gen-header" class="gen-header-style-1 gen-has-sticky" style="background-color: #111">
         <div class="gen-bottom-header">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-12">
-                        <nav class="navbar navbar-expand-lg navbar-light">
+                    <div class="col-lg-12 position-relative">
+                        <nav class="navbar navbar-expand-lg navbar-light position-relative" style="z-index: 1">
                             <a class="navbar-brand" href="/">
                                 <img class="img-fluid logo" src="/images/logo-1.png" alt="streamlab-image">
                             </a>
@@ -119,7 +123,7 @@
                                     <a href="javascript:void(0)"
                                     onclick="this.nextElementSibling.classList.toggle('d-none')"
                                     class="gen-button w-100 text-center">Subscribe</a>
-                                    <div class="position-absolute w-100 d-none">
+                                    <div class="position-absolute w-100 d-none" style="z-index: 888">
                                         <ul class="list-group">
                                             <li class="list-group-item bg-dark">
                                                 <a href="/" target="_blank" rel="noopener noreferrer">
@@ -150,6 +154,9 @@
                                 <i class="fas fa-bars"></i>
                             </button>
                         </nav>
+                        <div class="typewriter position-absolute end-0 me-1">
+                            <p id="typeWriter">{{ $typewriterText }}</p>
+                        </div>
                     </div>
                 </div>
             </div>

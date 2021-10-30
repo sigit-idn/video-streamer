@@ -319,19 +319,63 @@ textarea {
     -webkit-transition: all 0.5s ease-in-out;
 }
 
-input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
     color: var(--secondary-color);
 }
 
-input::-moz-placeholder, textarea::-moz-placeholder {
+input::-moz-placeholder,
+textarea::-moz-placeholder {
     color: var(--secondary-color);
 }
 
-input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
     color: var(--secondary-color);
 }
 
-input::-ms-input-placeholder, textarea::-ms-input-placeholder {
+input::-ms-input-placeholder,
+textarea::-ms-input-placeholder {
+    color: var(--secondary-color);
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+    color: var(--secondary-color);
+}
+
+input::-moz-placeholder,
+textarea::-moz-placeholder {
+    color: var(--secondary-color);
+}
+
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+    color: var(--secondary-color);
+}
+
+input::-ms-input-placeholder,
+textarea::-ms-input-placeholder {
+    color: var(--secondary-color);
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+    color: var(--secondary-color);
+}
+
+input::-moz-placeholder,
+textarea::-moz-placeholder {
+    color: var(--secondary-color);
+}
+
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+    color: var(--secondary-color);
+}
+
+input::-ms-input-placeholder,
+textarea::-ms-input-placeholder {
     color: var(--secondary-color);
 }
 
@@ -484,10 +528,10 @@ Loading
     height: 75px;
 }
 
-@media (max-width: 479px){
+@media (max-width: 479px) {
     #gen-loading img {
-    height: 60px;
-   }
+        height: 60px;
+    }
 }
 
 /*================================================
@@ -2177,6 +2221,10 @@ Breadcrum
 }
 
 @media(max-width:767px) {
+    .gen-breadcrumb {
+        background-size: contain !important;
+    }
+
     .gen-breadcrumb .gen-breadcrumb-title h1 {
         font-size: 34px;
         line-height: 42px;
@@ -2207,7 +2255,7 @@ Header
 
 .fadeInDown {
     -webkit-animation-name: fadeInDown;
-            animation-name: fadeInDown
+    animation-name: fadeInDown
 }
 
 @-webkit-keyframes fadeInLeft {
@@ -2739,11 +2787,11 @@ header#gen-header.gen-header-default .gen-menu-search-block {
     background: var(--primary-color);
 }
 
-header#gen-header.gen-header-style-1 .gen-bottom-header .navbar .navbar-nav li.active>a{
+header#gen-header.gen-header-style-1 .gen-bottom-header .navbar .navbar-nav li.active>a {
     color: var(--primary-color);
 }
 
-header#gen-header.gen-header-style-1 .gen-bottom-header .navbar .navbar-nav li.active ul li.active>a{
+header#gen-header.gen-header-style-1 .gen-bottom-header .navbar .navbar-nav li.active ul li.active>a {
     background-color: var(--primary-color);
     color: var(--white-color);
 }
@@ -3067,8 +3115,8 @@ header#gen-header.gen-header-style-1 .gen-bottom-header .navbar .navbar-nav li.a
     }
 }
 
-@media (max-width:479px){
-    header#gen-header .gen-bottom-header .navbar .navbar-brand img{
+@media (max-width:479px) {
+    header#gen-header .gen-bottom-header .navbar .navbar-brand img {
         height: 45px;
     }
 }
@@ -3757,8 +3805,8 @@ Gen Slick
     width: 100%;
     height: 100%;
     display: inline-block;
-    background: linear-gradient(to right, rgba(34,31,31,1) 0%,rgba(34,31,31,0.4) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#221f1f', endColorstr='#66221f1f',GradientType=1 );
+    background: linear-gradient(to right, rgba(34, 31, 31, 1) 0%, rgba(34, 31, 31, 0.4) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#221f1f', endColorstr='#66221f1f', GradientType=1);
 }
 
 .gen-banner-movies .slider-nav-contain .gen-nav-img:before {
@@ -3940,7 +3988,7 @@ Gen Slick
     }
 }
 
-.slider.slider-nav.slick-initialized.slick-slider.slick-vertical ul.slick-dots{
+.slider.slider-nav.slick-initialized.slick-slider.slick-vertical ul.slick-dots {
     display: none !important;
 }
 
@@ -3983,33 +4031,52 @@ Carousel Movies
 }
 
 .typewriter {
-    z-index: 888;
+    top: 5em;
 }
+
 .typewriter p {
     color: #fff;
     font-family: monospace;
     overflow: hidden;
+    min-width: 158px;
+    width: -webkit-max-content;
+    width: -moz-max-content;
     width: max-content;
-    margin-top: -3em;
+    max-width: 300px;
     display: block;
-    border-right: .15em solid rgb(211, 211, 211);
-    white-space: nowrap;
     letter-spacing: .15em;
-    animation: typing 5s steps(30, end) infinite, blink-caret .5s step-end infinite;
 }
 
-  /* The typing effect */
-  @keyframes typing {
-    0% { width: 0 }
-    20% { width: 100% }
-    100% { width: 100% }
-  }
+.typewriter p::after {
+    content: "|";
+    animation: blink-caret .5s step-end infinite;
+    -webkit-animation: blink-caret .5s step-end infinite;
+}
 
-  /* The typewriter cursor effect */
-  @keyframes blink-caret {
-    from, to { border-color: transparent }
-    50% { border-color: rgb(204, 204, 204) }
-  }
+/* The typing effect */
+@-webkit-keyframes blink-caret {
+
+    0%,
+    100% {
+        border-color: transparent;
+    }
+
+    50% {
+        border-color: rgb(204, 204, 204);
+    }
+}
+
+@keyframes blink-caret {
+
+    0%,
+    100% {
+        color: transparent;
+    }
+
+    50% {
+        color: rgb(204, 204, 204);
+    }
+}
 
 .gen-carousel-movies-style-1:hover .gen-movie-contain .gen-movie-img:before {
     opacity: 0.7;
@@ -4391,7 +4458,7 @@ Carousel Movies
 @media(min-width:1279px) {
     .gen-style-1 .gen-carousel-movies-style-1.movie-grid.style-1 .gen-movie-contain .gen-movie-img img {
         -o-object-fit: cover;
-           object-fit: cover;
+        object-fit: cover;
         height: 220px;
         width: auto;
     }
@@ -4400,7 +4467,7 @@ Carousel Movies
 @media(min-width:1340px) {
     .gen-style-1 .gen-carousel-movies-style-1.movie-grid.style-1 .gen-movie-contain .gen-movie-img img {
         -o-object-fit: cover;
-           object-fit: cover;
+        object-fit: cover;
         height: 265px;
         width: auto;
     }
@@ -5227,8 +5294,8 @@ Banner
     height: 100%;
     display: inline-block;
     background: rgb(34, 31, 31);
-    background: linear-gradient(to right, rgba(34,31,31,1) 0%,rgba(34,31,31,0.4) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#221f1f', endColorstr='#66221f1f',GradientType=1 );
+    background: linear-gradient(to right, rgba(34, 31, 31, 1) 0%, rgba(34, 31, 31, 0.4) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#221f1f', endColorstr='#66221f1f', GradientType=1);
 }
 
 .gen-banner-movies .gen-movie-contain .gen-tag-line {
@@ -5496,8 +5563,8 @@ Banner 2
     width: 100%;
     height: 100%;
     display: inline-block;
-    background: linear-gradient(to right, rgba(34,31,31,1) 0%,rgba(34,31,31,0.4) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#221f1f', endColorstr='#66221f1f',GradientType=1 );
+    background: linear-gradient(to right, rgba(34, 31, 31, 1) 0%, rgba(34, 31, 31, 0.4) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#221f1f', endColorstr='#66221f1f', GradientType=1);
 }
 
 .gen-movie-contain-style-2 .gen-tag-line {
@@ -5736,8 +5803,8 @@ Banner 3
     width: 100%;
     height: 100%;
     display: inline-block;
-    background: linear-gradient(to right, rgba(34,31,31,1) 0%,rgba(34,31,31,0.4) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#221f1f', endColorstr='#66221f1f',GradientType=1 );
+    background: linear-gradient(to right, rgba(34, 31, 31, 1) 0%, rgba(34, 31, 31, 0.4) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#221f1f', endColorstr='#66221f1f', GradientType=1);
 }
 
 
@@ -6068,7 +6135,7 @@ Play Button
     opacity: 1;
     stroke: var(--white-color);
     -webkit-animation: nudge 0.7s ease-in-out;
-            animation: nudge 0.7s ease-in-out;
+    animation: nudge 0.7s ease-in-out;
 }
 
 @-webkit-keyframes nudge {
@@ -6305,7 +6372,6 @@ Icon-Box
 .excerpt {
     display: -webkit-box;
     box-orient: vertical;
-    -moz-box-orient: vertical;
     -webkit-box-orient: vertical;
     line-clamp: 2;
     -webkit-line-clamp: 2;
@@ -6313,8 +6379,8 @@ Icon-Box
     text-overflow: ellipsis;
 }
 
-@media (max-width:767px){
-    .gen-blog-spot-video iframe{
+@media (max-width:767px) {
+    .gen-blog-spot-video iframe {
         height: auto;
     }
 }

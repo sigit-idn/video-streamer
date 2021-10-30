@@ -48,13 +48,39 @@
 <script src="/js/script.js"></script>
 
 <script>
-document.querySelectorAll('.page-link')?.forEach(link => {
-	link.classList.add('bg-dark', 'border-0', 'text-danger')
-})
-if (document.querySelector('.page-item.active .page-link')) {
-	document.querySelector('.page-item.active .page-link')
-	.className = "page-link bg-danger border-0 text-white"
-}
+    if (document.querySelector('.page-link')) {
+        document.querySelectorAll('.page-link').forEach(link => {
+            link.classList.add('bg-dark', 'border-0', 'text-danger')
+        })
+    }
+
+    if (document.querySelector('.page-item.active .page-link')) {
+        document.querySelector('.page-item.active .page-link')
+        .className = "page-link bg-danger border-0 text-white"
+    }
+
+    const typeWriter = document.querySelector('#typeWriter')
+    if (typeWriter) {
+        window.addEventListener("scroll", function () {
+            typeWriter.style.opacity =
+            1 - window.scrollY / window.innerHeight * 2
+        })
+
+        const typeWriterText = typeWriter.innerText
+        const typeWriterArray = typeWriterText.split('')
+
+        function typeWrite() {
+        typeWriter.innerHTML = ""
+            typeWriterArray.forEach(function (typeWriterLetter, i) {
+                setTimeout(function() {
+                    typeWriter.innerHTML += typeWriterLetter
+                }, 100 * i);
+            })
+        }
+
+        typeWrite()
+        setInterval(typeWrite, 100 * typeWriterArray.length + 3000);
+    }
 </script>
 
 @endsection

@@ -41,9 +41,6 @@
                     </nav>
                 </div>
             </div>
-            <div class="typewriter position-absolute end-0 top-0 me-3">
-                <p>Hello World!</p>
-            </div>
         </div>
     </div>
     <!-- breadcrumb -->

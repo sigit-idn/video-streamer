@@ -7,7 +7,7 @@
 @section('main')
 <script>
 function replaceTag(element){
-    element.outerHTML = `<iframe width="100%" height="550px" allowfullscreen src="${element.src}" id="${element.id}">`
+    element.innerHTML = `<iframe width="100%" height="550px" allowfullscreen src="${element.src}" id="${element.id}">`
 }
 </script>
 
@@ -20,13 +20,13 @@ function replaceTag(element){
     <!--=========== Loader =============-->
 
     <!-- Single Video Start -->
-    <section class="gen-section-padding-3 gen-single-video">
+    <section class="gen-section-padding-3 gen-single-video mt-5">
         <div class="container">
             <div class="row no-gutters">
                 <div class="col-lg-12">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="gen-video-holder">
+                            <div class="gen-video-holder" id="videoPlayer">
                                 <?php
                                     $video["video_url"] = str_replace("ifrome", "iframe", $video["video_url"]);
                                     $video["video_url_2"] = str_replace("ifrome", "iframe", $video["video_url_2"]);
@@ -41,19 +41,19 @@ function replaceTag(element){
                                     preg_match("/\d{9}/", $video["video_url"], $vimeoVideoID);
                                 ?>
                                 @if (preg_match("/<iframe|<embed|<video/", $video["video_url"]))
-                                {!! str_replace("<iframe", '<iframe id="videoPlayer"', $video["video_url"]) !!}
+                                {!! $video["video_url"] !!}
 
                                 @elseif (preg_match("/youtu/", $video["video_url"]))
-                                <iframe allowfullscreen id="videoPlayer" width="100%" height="550px" src="https://www.youtube.com/embed/{{ $youtubeVideoID[0] }}">
+                                <iframe allowfullscreen width="100%" height="550px" src="https://www.youtube.com/embed/{{ $youtubeVideoID[0] }}">
                                </iframe>
                                @elseif (preg_match("/embed|play/", $video["video_url"]))
-                               <iframe allowfullscreen id="videoPlayer" width="100%" height="550px" src="{{ $video["video_url"] }}">
+                               <iframe allowfullscreen width="100%" height="550px" src="{{ $video["video_url"] }}">
                             </iframe>
                             @elseif (preg_match("/vimeo/", $video["video_url"]))
-                            <iframe allowfullscreen id="videoPlayer" width="100%" height="550px" src="https://player.vimeo.com/video/{{ $vimeoVideoID[0] }}">
+                            <iframe allowfullscreen width="100%" height="550px" src="https://player.vimeo.com/video/{{ $vimeoVideoID[0] }}">
                            </iframe>
                             @else
-                            <video id="videoPlayer" onerror="replaceTag(this)" src="{{ $video["video_url"] }}" controls style="width: 100%" ></video>
+                            <video onerror="replaceTag(this)" src="{{ $video["video_url"] }}" controls style="width: 100%" ></video>
                             @endif
                             </div>
                         </div>
@@ -190,70 +190,62 @@ function replaceTag(element){
 
         @csrf
     <script>
-document.querySelectorAll("#mirrorLinks a").forEach((link) =>
-  link.addEventListener("click", () => {
-      const embedTag = link.dataset.src.match(/(<iframe|<embed|<video)/)
-    if (embedTag) {
-      document.querySelector("#videoPlayer").outerHTML = link.dataset.src.replace(embedTag[0], embedTag[0] + ' id="videoPlayer"');
-    } else if (/youtu/.test(link.dataset.src)) {
-      document.querySelector("#videoPlayer").outerHTML = `
-        <iframe allowfullscreen id="videoPlayer" width="100%" height="550px" src="https://www.youtube.com/embed/${link.dataset.src.match(/(\w|-|_){11}/)[0]}">
-        </iframe>`;
-    } else if (/embed|play/.test(link.dataset.src)) {
-      document.querySelector("#videoPlayer").outerHTML = `
-        <iframe allowfullscreen id="videoPlayer" width="100%" height="550px" src="${link.dataset.src}">
-        </iframe>`;
-    } else if (/vimeo/.test(link.dataset.src)) {
-      document.querySelector("#videoPlayer").outerHTML = `
-        <iframe allowfullscreen id="videoPlayer" width="100%" height="550px" src="https://player.vimeo.com/video/${link.dataset.src.match(/\d{9}/)[0]}">
-        </iframe>`;
-    }
-    else {
-      document.querySelector("#videoPlayer").outerHTML = `
-        <video id="videoPlayer" onerror="replaceTag(this)" src="${link.dataset.src}" controls style="width: 100%" >`;
-    }
-  })
-);
+"use strict";
 
+var _document$querySelect;
 
+document.querySelectorAll("#mirrorLinks a").forEach(link => link.addEventListener("click", () => {
+  const embedTag = link.dataset.src.match(/(<iframe|<embed|<video)/);
+
+  if (embedTag) {
+    document.querySelector("#videoPlayer").innerHTML = link.dataset.src;
+  } else if (/youtu/.test(link.dataset.src)) {
+    document.querySelector("#videoPlayer").innerHTML = `
+        <iframe allowfullscreen width="100%" height="550px" src="https://www.youtube.com/embed/${link.dataset.src.match(/(\w|-|_){11}/)[0]}">
+        </iframe>`;
+  } else if (/embed|play/.test(link.dataset.src)) {
+    document.querySelector("#videoPlayer").innerHTML = `
+        <iframe allowfullscreen width="100%" height="550px" src="${link.dataset.src}">
+        </iframe>`;
+  } else if (/vimeo/.test(link.dataset.src)) {
+    document.querySelector("#videoPlayer").innerHTML = `
+        <iframe allowfullscreen width="100%" height="550px" src="https://player.vimeo.com/video/${link.dataset.src.match(/\d{9}/)[0]}">
+        </iframe>`;
+  } else {
+    document.querySelector("#videoPlayer").innerHTML = `
+        <video onerror="replaceTag(this)" src="${link.dataset.src}" controls style="width: 100%" >`;
+  }
+}));
 const videoDescription = document.querySelector("#videoDescription");
 const excerpt = videoDescription.innerHTML.slice(0, 200) + "...";
 const description = videoDescription.innerHTML;
 videoDescription.innerHTML = excerpt;
-
 let isMore = true;
-document
-  .querySelector("#descriptionToggle")
-  ?.addEventListener("click", ({ target }) => {
-    isMore = !isMore;
-    target.innerHTML = "Show " + (isMore ? "more..." : "less...");
-    videoDescription.innerHTML = !isMore ? description : excerpt;
-  });
+(_document$querySelect = document.querySelector("#descriptionToggle")) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.addEventListener("click", ({
+  target
+}) => {
+  isMore = !isMore;
+  target.innerHTML = "Show " + (isMore ? "more..." : "less...");
+  videoDescription.innerHTML = !isMore ? description : excerpt;
+});
 
-  document.onreadystatechange = () => {
-      if (document.readyState == "complete") {
-          fetch("/add-view/" + window.location.href.match(/(?<=\/video\/)\w(\w|\-)+/)[0],
-          {
-              headers: {
-                  "X-CSRF-Token" : document.querySelector('[name=_token]').value
-              },
-              method: "put"
-          })
-      }
+document.onreadystatechange = () => {
+  if (document.readyState == "complete") {
+    fetch("/add-view/" + window.location.href.match(/(?<=\/video\/)\w(\w|\-)+/)[0], {
+      headers: {
+        "X-CSRF-Token": document.querySelector('[name=_token]').value
+      },
+      method: "put"
+    });
   }
+};
 
-  document.querySelectorAll('[id^=buyButton]').forEach(buyButton =>
-  buyButton.addEventListener('click', () =>
-  fetch("/add-click/" + buyButton.dataset.chapterId,
-          {
-              headers: {
-                  "X-CSRF-Token" : document.querySelector('[name=_token]').value
-              },
-              method: "put"
-          })
-  ))
-
-
+document.querySelectorAll('[id^=buyButton]').forEach(buyButton => buyButton.addEventListener('click', () => fetch("/add-click/" + buyButton.dataset.chapterId, {
+  headers: {
+    "X-CSRF-Token": document.querySelector('[name=_token]').value
+  },
+  method: "put"
+})));
     </script>
 
 @endsection
