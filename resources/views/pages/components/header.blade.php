@@ -2,6 +2,25 @@
     $typewriterText = "Hello World!"
 ?>
 
+<script>
+    var initialMilisecond = 0;
+
+    var milisecondIncrement = setInterval(function() {
+        initialMilisecond += 100
+
+        if (initialMilisecond >= 600 || document.readyState == "complete") {
+            var genLoading = document.querySelector("#gen-loading")
+            genLoading.style.transition = ".5s";
+            genLoading.style.opacity = 0;
+            clearInterval(milisecondIncrement)
+            setTimeout(function() {
+                genLoading.remove()
+            }, 500)
+        }
+    }, 100);
+
+</script>
+
 <!--========== Header ==============-->
     <header id="gen-header" class="gen-header-style-1 gen-has-sticky" style="background-color: #111">
         <div class="gen-bottom-header">

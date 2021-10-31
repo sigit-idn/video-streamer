@@ -146,11 +146,18 @@ function replaceTag(element){
                                                             $youtubeVideoID = [""];
                                                         }
                                                         ?>
+                                                     <a href="/video/{{ $video->slug }}">
                                                       <img
                                                       src="{{ $video["thumbnail"]
-                                                        ? "/storage/" . $video['thumbnail']
-                                                        : "https://i.ytimg.com/vi/" . $youtubeVideoID[0] . "/mqdefault.jpg"}}"
-                                                        alt="streamlab-image">
+                                                      ? "/storage/"
+                                                      . $video['thumbnail']
+                                                      : (
+                                                          preg_match("/youtu/", $video["video_url"]) ?
+                                                          "https://i.ytimg.com/vi/" . $youtubeVideoID[0] . "/mqdefault.jpg"
+                                                          : "/images/favicon.png"
+                                                          )}}"
+                                                        alt="{{ $video["title"] }}">
+                                                     </a>
                                                       <div class="gen-movie-action">
                                                           <a href="/video/{{ $video->slug }}" class="gen-button">
                                                               <i class="fa fa-play"></i>
@@ -221,11 +228,10 @@ const excerpt = videoDescription.innerHTML.slice(0, 200) + "...";
 const description = videoDescription.innerHTML;
 videoDescription.innerHTML = excerpt;
 let isMore = true;
-(_document$querySelect = document.querySelector("#descriptionToggle")) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.addEventListener("click", ({
-  target
-}) => {
+(_document$querySelect = document.querySelector("#descriptionToggle")) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.addEventListener("click",
+function (event) {
   isMore = !isMore;
-  target.innerHTML = "Show " + (isMore ? "more..." : "less...");
+  event.target.innerHTML = "Show " + (isMore ? "more..." : "less...");
   videoDescription.innerHTML = !isMore ? description : excerpt;
 });
 

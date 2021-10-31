@@ -16,14 +16,13 @@
     if (!preg_match("/(\w|-|_){11}/", $headerVideo["video_url"], $headerYoutubeVideoID)) {
         $headerYoutubeVideoID = [""];
     };
-
     ?>
 
     <div class="gen-breadcrumb" style="background-image: url('{{$headerVideo["thumbnail"] ? "/storage/"
     . $headerVideo['thumbnail']
     : "https://i.ytimg.com/vi/"
     . $headerYoutubeVideoID[0]
-    . "/hq720.jpg"}}');">
+    . "/mqdefault.jpg"}}');">
         <div class="container position-relative">
             <div class="row align-items-center">
                 <div class="col-lg-12">
@@ -55,6 +54,7 @@
                           @foreach ($videos as $video)
                             <div class="col-xl-3 col-lg-4 col-md-6">
                                 <div class="gen-carousel-movies-style-1 movie-grid style-1">
+                                    <a href="/video/{{ $video->slug }}">
                                   <div class="gen-movie-contain">
                                       <div class="gen-movie-img">
                                           <?php
@@ -68,9 +68,16 @@
                                                 $youtubeVideoID = [""];
                                             }
                                             ?>
-                                          <img
-                                          src="{{ $video["thumbnail"] ? "/storage/" . $video['thumbnail'] : "https://i.ytimg.com/vi/" . $youtubeVideoID[0] . "/mqdefault.jpg"}}"
-                                            alt="streamlab-image">
+                                            <img
+                                            src="{{ $video["thumbnail"]
+                                            ? "/storage/"
+                                            . $video['thumbnail']
+                                            : (
+                                                preg_match("/youtu/", $video["video_url"]) ?
+                                                "https://i.ytimg.com/vi/" . $youtubeVideoID[0] . "/mqdefault.jpg"
+                                                : "/images/favicon.png"
+                                                )}}"
+                                            alt="{{ $video["title"] }}">
 
                                           <div class="gen-movie-action">
                                               <a href="/video/{{ $video->slug }}" class="gen-button">
@@ -88,6 +95,7 @@
                                           </div>
                                       </div>
                                   </div>
+                                    </a>
                               </div>
                             </div>
                             @endforeach

@@ -12,7 +12,7 @@ class PageController extends Controller
     public function index()
     {
         return view('pages.home', [
-            "videos" => Video::orderByDesc("id")->paginate(12),
+            "videos" => Video::latest()->paginate(12),
             "title" => "Home"
         ]);
     }
@@ -90,12 +90,15 @@ class PageController extends Controller
     {
         if ($request->by == "" || $request->by == "all") {
             $videos = Video::where("title", "like", "%$request->s%")
+                ->with('chapters')
                 ->orWhere("tags", "like", "%$request->s%")
                 ->orWhere("description", "like", "%$request->s%")
                 ->distinct()
                 ->get();
 
-            foreach (Chapter::where("chapter_name", "like", "%$request->s%")->distinct()->get()
+            foreach (Chapter::where("chapter_name", "like", "%$request->s%")
+                ->distinct()
+                ->get()
                 as $chapter) {
                 $videos->push($chapter->video);
             };
@@ -107,7 +110,9 @@ class PageController extends Controller
             ]);
         }
         if ($request->by == "clips") {
-            $videos = Chapter::where("chapter_name", "like", "%$request->s%")
+            $videos =
+                Chapter::where("chapter_name", "like", "%$request->s%")
+                ->with('video')
                 ->distinct()
                 ->get()
                 ->map(
