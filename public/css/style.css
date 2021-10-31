@@ -6383,6 +6383,14 @@ Icon-Box
     .gen-blog-spot-video iframe {
         height: auto;
     }
+
+    .typewriter {
+        top: 4em;
+    }
+
+    .typewriter p {
+        min-width: 10px;
+    }
 }
 
 /*===========================================================================================================*/
