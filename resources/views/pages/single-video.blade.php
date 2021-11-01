@@ -104,7 +104,7 @@ function replaceTag(element){
                                     <div class="bg-dark text-white border-bottom d-flex py-2 px-3 justify-content-between me-2 align-items-center">
                                         <h3 class="lead">Clips Detail</h3>
                                         <a href="javascript:void(0)" onclick="
-                                            document.querySelector('#clips').classList.toggle('d-none')
+                                            document.getElementById('clips').classList.toggle('d-none')
                                         ">hide/show</a>
                                     </div>
                                     <ul class="list-group overflow-scroll pe-2" id="clips" style="height: 40vh" id="chapters">
@@ -200,30 +200,34 @@ function replaceTag(element){
 "use strict";
 
 var _document$querySelect;
+var videoPlayer = document.getElementById("videoPlayer")
 
 document.querySelectorAll("#mirrorLinks a").forEach(function (link) {
   return link.addEventListener("click", function () {
     var embedTag = link.dataset.src.match(/(<iframe|<embed|<video)/);
 
     if (embedTag) {
-      document.querySelector("#videoPlayer").innerHTML = link.dataset.src;
+      videoPlayer.innerHTML = link.dataset.src;
     } else if (/youtu/.test(link.dataset.src)) {
-      document.querySelector("#videoPlayer").innerHTML = "<iframe allowfullscreen width=\"100%\" height=\"550px\" src=\"https://www.youtube.com/embed/".concat(link.dataset.src.match(/(\w|-|_){11}/)[0], "\">\n        </iframe>");
+      videoPlayer.innerHTML = "<iframe allowfullscreen width=\"100%\" height=\"550px\" src=\"https://www.youtube.com/embed/".concat(link.dataset.src.match(/(\w|-|_){11}/)[0], "\">\n        </iframe>");
     } else if (/embed|play/.test(link.dataset.src)) {
-      document.querySelector("#videoPlayer").innerHTML = "<iframe allowfullscreen width=\"100%\" height=\"550px\" src=\"".concat(link.dataset.src, "\">\n        </iframe>");
+      videoPlayer.innerHTML = "<iframe allowfullscreen width=\"100%\" height=\"550px\" src=\"".concat(link.dataset.src, "\">\n        </iframe>");
     } else if (/vimeo/.test(link.dataset.src)) {
-      document.querySelector("#videoPlayer").innerHTML = "<iframe allowfullscreen width=\"100%\" height=\"550px\" src=\"https://player.vimeo.com/video/".concat(link.dataset.src.match(/\d{9}/)[0], "\">\n        </iframe>");
+      videoPlayer.innerHTML = "<iframe allowfullscreen width=\"100%\" height=\"550px\" src=\"https://player.vimeo.com/video/".concat(link.dataset.src.match(/\d{9}/)[0], "\">\n        </iframe>");
     } else {
-      document.querySelector("#videoPlayer").innerHTML = "<video onerror=\"replaceTag(this)\" src=\"".concat(link.dataset.src, "\" controls style=\"width: 100%\" >");
+      videoPlayer.innerHTML = "<video onerror=\"replaceTag(this)\" src=\"".concat(link.dataset.src, "\" controls style=\"width: 100%\" >");
     }
   });
 });
-var videoDescription = document.querySelector("#videoDescription");
+var videoDescription = document.getElementById("videoDescription");
 var excerpt = videoDescription.innerHTML.slice(0, 200) + "...";
 var description = videoDescription.innerHTML;
 videoDescription.innerHTML = excerpt;
+
 var isMore = true;
-(_document$querySelect = document.getElementById("descriptionToggle")) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.addEventListener("click", function (event) {
+var discriptionToggle = document.getElementById("descriptionToggle")
+if(descriptionToggle) {
+descriptionToggle.addEventListener("click", function (event) {
   isMore = !isMore;
   if (isMore) {
   event.target.innerHTML = "Show More...";
@@ -233,12 +237,15 @@ var isMore = true;
   videoDescription.innerHTML = description;
   }
 });
+}
+
+var csrfToken = document.querySelector('[name=_token]').value
 
 document.onreadystatechange = function () {
   if (document.readyState == "complete") {
     fetch("/add-view/" + window.location.href.match(/(?<=\/video\/)\w(\w|\-)+/)[0], {
       headers: {
-        "X-CSRF-Token": document.querySelector('[name=_token]').value
+        "X-CSRF-Token": csrfToken
       },
       method: "put"
     });
@@ -249,7 +256,7 @@ document.querySelectorAll('[id^=buyButton]').forEach(function (buyButton) {
   return buyButton.addEventListener('click', function () {
     return fetch("/add-click/" + buyButton.dataset.chapterId, {
       headers: {
-        "X-CSRF-Token": document.querySelector('[name=_token]').value
+        "X-CSRF-Token": csrfToken
       },
       method: "put"
     });
