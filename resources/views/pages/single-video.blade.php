@@ -223,10 +223,15 @@ var excerpt = videoDescription.innerHTML.slice(0, 200) + "...";
 var description = videoDescription.innerHTML;
 videoDescription.innerHTML = excerpt;
 var isMore = true;
-(_document$querySelect = document.querySelector("#descriptionToggle")) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.addEventListener("click", function (event) {
+(_document$querySelect = document.getElementById("descriptionToggle")) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.addEventListener("click", function (event) {
   isMore = !isMore;
-  event.target.innerHTML = "Show " + (isMore ? "more..." : "less...");
-  videoDescription.innerHTML = !isMore ? description : excerpt;
+  if (isMore) {
+  event.target.innerHTML = "Show More...";
+  videoDescription.innerHTML = excerpt;
+  } else {
+  event.target.innerHTML = "Show Less...";
+  videoDescription.innerHTML = description;
+  }
 });
 
 document.onreadystatechange = function () {
