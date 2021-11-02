@@ -1,6 +1,4 @@
 "use strict";
-console.log(2);
-alert(2);
 
 var _document$querySelect;
 var videoPlayer = document.getElementById("videoPlayer");
