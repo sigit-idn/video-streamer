@@ -19,9 +19,15 @@ class PageController extends Controller
 
     public function singleVideo(Video $video)
     {
+        $videoCount = Video::count();
+        $videos = Video::all();
+        if ($videoCount >= 6) {
+            $videos = $videos->random((6));
+        }
+
         return view("pages.single-video", [
             "video" => $video,
-            "videos" => Video::all()->random(6),
+            "videos" => $videos,
             "title" => $video["title"]
         ]);
     }

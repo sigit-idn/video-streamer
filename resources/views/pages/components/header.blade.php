@@ -1,5 +1,5 @@
 <?php
-    $typewriterText = "Hello World!"
+    $typewriterText = ["Hello World!", "Text Animation 2", "The third sentence"]
 ?>
 
 <script>
@@ -174,7 +174,7 @@
                             </button>
                         </nav>
                         <div class="typewriter position-absolute end-0 me-1">
-                            <p id="typeWriter">{{ $typewriterText }}</p>
+                            <p id="typeWriter">{{ implode(";", $typewriterText) }}</p>
                         </div>
                     </div>
                 </div>

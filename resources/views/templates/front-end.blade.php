@@ -48,39 +48,46 @@
 <script src="/js/script.js"></script>
 
 <script>
-    if (document.querySelector('.page-link')) {
-        document.querySelectorAll('.page-link').forEach(function(link) {
-            link.classList.add('bg-dark', 'border-0', 'text-danger')
-        })
-    }
+if (document.querySelector(".page-link")) {
+  document.querySelectorAll(".page-link").forEach(function (link) {
+    link.classList.add("bg-dark", "border-0", "text-danger");
+  });
+}
 
-    if (document.querySelector('.page-item.active .page-link')) {
-        document.querySelector('.page-item.active .page-link')
-        .className = "page-link bg-danger border-0 text-white"
-    }
+if (document.querySelector(".page-item.active .page-link")) {
+  document.querySelector(".page-item.active .page-link").className =
+    "page-link bg-danger border-0 text-white";
+}
 
-    var typeWriter = document.querySelector('#typeWriter')
-    if (typeWriter) {
-        window.addEventListener("scroll", function () {
-            typeWriter.style.opacity =
-            1 - window.scrollY / window.innerHeight * 2
-        })
+var typeWriter = document.querySelector("#typeWriter");
+if (typeWriter) {
+  window.addEventListener("scroll", function () {
+    typeWriter.style.opacity = 1 - (window.scrollY / window.innerHeight) * 2;
+  });
 
-        var typeWriterText = typeWriter.innerText
-        var typeWriterArray = typeWriterText.split('')
+  var typeWriterInnerText = typeWriter.innerText
+  var typeWriterTexts = typeWriterInnerText.split(";");
 
-        function typeWrite() {
-        typeWriter.innerHTML = ""
-            typeWriterArray.forEach(function (typeWriterLetter, i) {
-                setTimeout(function() {
-                    typeWriter.innerHTML += typeWriterLetter
-                }, 100 * i);
-            })
-        }
+  function typeWrite(typeWriterTexts) {
+      typeWriterTexts.forEach(function (typeWriterText, i) {
+      var typeWriterArray = typeWriterText.split("");
+      setTimeout(function () {
+        typeWriter.innerHTML = "";
+        typeWriterArray.forEach(function (typeWriterLetter, j) {
+          setTimeout(function () {
+            typeWriter.innerHTML += typeWriterLetter;
+          }, 100 * j);
+        });
+      }, i * 200 * typeWriterText.length + 500);
+    });
+  }
 
-        typeWrite()
-        setInterval(typeWrite, 100 * typeWriterArray.length + 3000);
-    }
+  typeWrite(typeWriterTexts);
+  setInterval(function () {
+    typeWrite(typeWriterTexts);
+  }, 200 * typeWriterInnerText.split("").length + 3000);
+}
+
 </script>
 
 @endsection

@@ -11,14 +11,19 @@
 
     <!-- breadcrumb -->
     <?php
-    $headerVideo = $videos[0];
-    $headerYoutubeVideoID = [];
-    if (!preg_match("/(\w|-|_){11}/", $headerVideo["video_url"], $headerYoutubeVideoID)) {
+    if ($videos[0]) {
+        $headerVideo = $videos[0];
+        $headerYoutubeVideoID = [];
+        if (!preg_match("/(\w|-|_){11}/", $headerVideo["video_url"], $headerYoutubeVideoID)) {
+            $headerYoutubeVideoID = [""];
+        };
+    } else {
+        $headerVideo["thumbnail"] = "";
         $headerYoutubeVideoID = [""];
-    };
+    }
     ?>
 
-    <div class="gen-breadcrumb" style="background-image: url('{{$headerVideo["thumbnail"] ? "/storage/"
+        <div class="gen-breadcrumb" style="background-image: url('{{$headerVideo["thumbnail"] ? "/storage/"
     . $headerVideo['thumbnail']
     : "https://i.ytimg.com/vi/"
     . $headerYoutubeVideoID[0]
@@ -42,6 +47,8 @@
             </div>
         </div>
     </div>
+
+
     <!-- breadcrumb -->
 
     <!-- Section-1 Start -->
@@ -51,7 +58,7 @@
                 <div class="col-lg-12">
                     <div class="gen-style-1">
                         <div class="row">
-                          @foreach ($videos as $video)
+                            @foreach ($videos as $video)
                             <div class="col-xl-3 col-lg-4 col-md-6">
                                 <div class="gen-carousel-movies-style-1 movie-grid style-1">
                                     <a href="/video/{{ $video->slug }}">
