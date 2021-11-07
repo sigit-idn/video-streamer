@@ -178,7 +178,7 @@
                             </button>
                         </nav>
                         <div class="typewriter position-absolute end-0 me-1">
-                            <p id="typeWriter">{{ implode(";", $typewriterText) }}</p>
+                            <p id="typeWriter">{{ $typewriterText[0] }}</p>
                         </div>
                     </div>
                 </div>
@@ -186,3 +186,7 @@
         </div>
     </header>
     <!--========== Header ==============-->
+
+    <script>
+        var typeWriterTexts = <?= json_encode($typewriterText) ?>
+    </script>

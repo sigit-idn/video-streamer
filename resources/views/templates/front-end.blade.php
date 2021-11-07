@@ -61,32 +61,35 @@ if (document.querySelector(".page-item.active .page-link")) {
 
 var typeWriter = document.querySelector("#typeWriter");
 if (typeWriter) {
-  window.addEventListener("scroll", function () {
-    typeWriter.style.opacity = 1 - (window.scrollY / window.innerHeight) * 2;
-  });
-
-  var typeWriterInnerText = typeWriter.innerText
-  var typeWriterTexts = typeWriterInnerText.split(";");
-
-  function typeWrite(typeWriterTexts) {
-      typeWriterTexts.forEach(function (typeWriterText, i) {
-      var typeWriterArray = typeWriterText.split("");
-      setTimeout(function () {
-        typeWriter.innerHTML = "";
-        typeWriterArray.forEach(function (typeWriterLetter, j) {
-          setTimeout(function () {
-            typeWriter.innerHTML += typeWriterLetter;
-          }, 100 * j);
-        });
-      }, i * 200 * typeWriterText.length + 500);
+    window.addEventListener("scroll", function () {
+        typeWriter.style.opacity = 1 - (window.scrollY / window.innerHeight) * 2;
     });
-  }
 
-  typeWrite(typeWriterTexts);
-  setInterval(function () {
-    typeWrite(typeWriterTexts);
-  }, 200 * typeWriterInnerText.split("").length + 3000);
-}
+    function typeWrite(typeWriterTexts) {
+        for (
+            var typeWriterIndex = 0;
+            typeWriterIndex < typeWriterTexts.length;
+            typeWriterIndex++
+            ) {
+                setTimeout(function () {
+                    var randomIndex = Math.floor(Math.random() * typeWriterTexts.length)
+                var typeWriterArray =
+                typeWriterTexts[randomIndex].split("");
+                    typeWriter.innerHTML = "";
+                    typeWriterArray.forEach(function (typeWriterLetter, textLetterIndex) {
+                        setTimeout(function () {
+                            typeWriter.innerHTML += typeWriterLetter;
+                        }, 100 * textLetterIndex);
+                    });
+                }, typeWriterIndex * 300 * typeWriterTexts[typeWriterIndex].length + 800);
+            }
+        }
+
+        typeWrite(typeWriterTexts);
+        setInterval(function () {
+            typeWrite(typeWriterTexts);
+        }, 300 * typeWriterTexts.join("").split("").length + 3000);
+    }
 
 </script>
 

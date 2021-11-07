@@ -46,7 +46,6 @@ var discriptionToggle = document.getElementById("descriptionToggle");
 if (descriptionToggle) {
     descriptionToggle.addEventListener("click", function (event) {
         isMore = !isMore;
-        console.log(isMore);
         if (isMore) {
             event.target.innerHTML = "Show More...";
             videoDescription.innerHTML = excerpt;
