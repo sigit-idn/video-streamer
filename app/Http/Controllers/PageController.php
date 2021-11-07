@@ -17,6 +17,13 @@ class PageController extends Controller
         ]);
     }
 
+    public function cryptocurrency()
+    {
+        return view('pages.cryptocurrency', [
+            "title" => "Donation via Cryptocurrency"
+        ]);
+    }
+
     public function singleVideo(Video $video)
     {
         $videoCount = Video::count();

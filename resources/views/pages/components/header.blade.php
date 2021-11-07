@@ -1,5 +1,9 @@
 <?php
-    $typewriterText = ["Hello World!", "Text Animation 2", "The third sentence"]
+    $typewriterText = [
+        "Hello World!",
+        "Text Animation 2",
+        "The third sentence"
+    ]
 ?>
 
 <script>
@@ -35,14 +39,14 @@
                                 <div id="gen-menu-contain" class="gen-menu-contain">
                                     <ul id="gen-main-menu" class="navbar-nav ml-auto">
                                         <li class="menu-item active d-md-none">
-                                            <a href="#" aria-current="page">Subscribe</a>
+                                            <a href="#" aria-current="page">Donation</a>
                                             <i class="fa fa-chevron-down gen-submenu-icon"></i>
                                             <ul class="sub-menu">
                                                 <li class="menu-item">
-                                                    <a target="_blank" rel="noopener noreferrer" href="/" aria-current="page">Main Home</a>
+                                                    <a target="_blank" rel="noopener noreferrer" href="/cryptocurrency" aria-current="page">Bitcoin</a>
                                                 </li>
                                                 <li class="menu-item">
-                                                    <a target="_blank" rel="noopener noreferrer" href="/" aria-current="page">Movies Home</a>
+                                                    <a target="_blank" rel="noopener noreferrer" href="/" aria-current="page">Buy Me a Coffee</a>
                                                 </li>
                                             </ul>
                                         </li>
@@ -132,25 +136,25 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="gen-btn-container position-relative" style="width: 150px">
+                                <div class="gen-btn-container position-relative" style="width: 160px">
                                     {{-- <a href="javascript:void(0)" class="gen-button">
                                         <div class="gen-button-block">
                                             <span class="gen-button-line-left"></span>
-                                            <span class="gen-button-text">Subscribe</span>
+                                            <span class="gen-button-text">Donation</span>
                                         </div>
                                     </a> --}}
                                     <a href="javascript:void(0)"
                                     onclick="this.nextElementSibling.classList.toggle('d-none')"
-                                    class="gen-button w-100 text-center">Subscribe</a>
+                                    class="gen-button w-100 text-center">Donation</a>
                                     <div class="position-absolute w-100 d-none" style="z-index: 888">
                                         <ul class="list-group">
                                             <li class="list-group-item bg-dark">
-                                                <a href="/" target="_blank" rel="noopener noreferrer">
-                                                    Main Home </a>
+                                                <a href="/cryptocurrency" target="_blank" rel="noopener noreferrer">
+                                                    Bitcoin </a>
                                             </li>
                                             <li class="list-group-item bg-dark">
                                                 <a href="/" target="_blank" rel="noopener noreferrer">
-                                                    Movies Home
+                                                    Buy Me a Coffee
                                                 </a>
                                             </li>
                                             {{-- <li>

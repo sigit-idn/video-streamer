@@ -23,6 +23,7 @@ use App\Models\Chapter;
 */
 
 Route::get('/', [PageController::class, "index"]);
+Route::get('/cryptocurrency', [PageController::class, "cryptocurrency"]);
 Route::get("/video/{video:slug}", [PageController::class, "singleVideo"]);
 Route::get("/dashboard",  [PageController::class, "dashboard"])->middleware("auth");
 Route::get("/dashboard/post", [PageController::class, "post"])->middleware("auth");
