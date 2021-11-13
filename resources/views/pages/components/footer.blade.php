@@ -12,10 +12,14 @@
                                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                                         </p>
                                         <ul class="social-link">
-                                            <li><a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a></li>
-                                            <li><a href="#" class="facebook"><i class="fab fa-instagram"></i></a></li>
-                                            <li><a href="#" class="facebook"><i class="fab fa-skype"></i></a></li>
-                                            <li><a href="#" class="facebook"><i class="fab fa-twitter"></i></a></li>
+                                            <li><a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                                            </li>
+                                            <li><a href="#" class="facebook"><i class="fab fa-instagram"></i></a>
+                                            </li>
+                                            <li><a href="#" class="facebook"><i class="fab fa-skype"></i></a>
+                                            </li>
+                                            <li><a href="#" class="facebook"><i class="fab fa-twitter"></i></a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -34,7 +38,7 @@
                                                 Use</a></li>
                                         <li class="menu-item"><a href="contact-us.html">Help
                                                 Center</a></li>
-                                        <li class="menu-item"><a href="contact-us.html">contact us</a></li>
+                                        <li class="menu-item"><a href="/contact">contact us</a></li>
                                         <li class="menu-item"><a href="pricing-style-1.html">Subscribe</a></li>
                                         <li class="menu-item"><a href="#">Our Team</a></li>
                                         <li class="menu-item"><a href="contact-us.html">Faq</a></li>

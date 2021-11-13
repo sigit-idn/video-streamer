@@ -36,6 +36,11 @@
     <section class="gen-section-padding-3">
         <div class="container container-2">
             <div class="row">
+                <p class="col-12 col-md-8 offset-md-2">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima quos maxime magni eaque illo. Nulla
+                    obcaecati optio odit, ex in saepe nam fugit, quia, impedit consectetur molestiae laboriosam officia
+                    possimus!
+                </p>
             </div>
         </div>
     </section>
