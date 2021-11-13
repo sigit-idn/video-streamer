@@ -10,6 +10,14 @@
     user-select: none;
   }
 
+  .outline-0 {
+      outline: none;
+  }
+
+  [id^=video_label] {
+      width: 70px;
+  }
+
   @media (min-width: 768px) {
     .bd-placeholder-img-lg {
       font-size: 3.5rem;

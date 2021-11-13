@@ -6,6 +6,7 @@ use App\Models\Video;
 use App\Models\Chapter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class PageController extends Controller
 {
@@ -22,6 +23,48 @@ class PageController extends Controller
         return view('pages.cryptocurrency', [
             "title" => "Donation via Cryptocurrency"
         ]);
+    }
+
+    public function contact()
+    {
+        $question = "What is the geometric figure of X square + Y square = 8?"; //Write the verification question here
+        return view('pages.contact', [
+            "title" => "Contact Us",
+            "question" => $question
+        ]);
+    }
+
+    public function sendMessage(Request $request)
+    {
+        $answer = "circle"; //Write the verification answer here
+        $to = "sigit.idn@gmail.com";
+        $subject = $request->title;
+
+        $message = "
+        Sender Name: $request->name
+        Sender Email: $request->email
+        Message:
+        $request->message
+        ";
+
+        if (
+            trim(strtolower($request->verification))
+            !=
+            trim(strtolower($answer))
+        ) {
+            return Redirect::back()
+                ->withInput()
+                ->with("verification", "Your answer is incorrect");
+        }
+
+        mail($to, $subject, $message);
+
+        return "
+        <script>
+            alert('Message Sent successfully')
+            window.location.href = '/'
+        </script>
+        ";
     }
 
     public function singleVideo(Video $video)
@@ -41,8 +84,14 @@ class PageController extends Controller
 
     public function dashboard()
     {
+        if (Auth::user()->is_admin) {
+            $videos = Video::all();
+        } else {
+            $videos = Video::where("user_id", Auth::user()->id)->get();
+        }
+
         return view('dashboard.index', [
-            "videos" => Video::where("user_id", Auth::user()->id)->get(),
+            "videos" => $videos,
             "title" => "Dashboard"
         ]);
     }
@@ -92,6 +141,12 @@ class PageController extends Controller
             $videos->push($chapter->video);
         };
 
+        $videos = collect($videos);
+
+        $videos = $videos->filter(function ($video) {
+            return $video != null;
+        });
+
         return view("pages.search", [
             "title" => "Videos in tag",
             "tag" => $tag,
@@ -115,6 +170,11 @@ class PageController extends Controller
                 as $chapter) {
                 $videos->push($chapter->video);
             };
+            $videos = collect($videos);
+
+            $videos = $videos->filter(function ($video) {
+                return $video != null;
+            });
 
             return view("pages.search", [
                 "title" => "Search results",
@@ -133,6 +193,7 @@ class PageController extends Controller
                         return $clip->video;
                     }
                 );
+
 
             return view("pages.search", [
                 "title" => "Search results",

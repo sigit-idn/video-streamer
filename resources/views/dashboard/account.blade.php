@@ -32,7 +32,7 @@
                     <div class="col-md-12">
                         <label class="labels mt-2">Email</label>
                         <input required type="email"
-                            class="form-control @error("email") is-invalid @enderror" name="email" placeholder="Enter address line 1" value="{{ Auth::user()->email }}">
+                            class="form-control @error("email") is-invalid @enderror" name="email" placeholder="Enter email address" value="{{ Auth::user()->email }}">
                             @error("email")
                             <p class="invalid-feedback">{{ $message }}</p>
                             @enderror
@@ -41,8 +41,14 @@
                     <div class="col-md-12">
                         <label class="labels mt-2">Username</label>
                         <input required type="text"
-                            class="form-control @error("username") is-invalid @enderror" name="username" placeholder="Enter address line 1" value="{{ Auth::user()->username }}">
+                            class="form-control @error("username") is-invalid @enderror" name="username" placeholder="Enter username" value="{{ Auth::user()->username }}">
                             @error("username")
+                            <p class="invalid-feedback">{{ $message }}</p>
+                            @enderror
+                        <label class="labels mt-2">Password</label>
+                        <input type="password"
+                        class="form-control @error("password") is-invalid @enderror" name="password" placeholder="Enter new password">
+                            @error("password")
                             <p class="invalid-feedback">{{ $message }}</p>
                             @enderror
                         </div>

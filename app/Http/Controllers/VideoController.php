@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Video;
 use App\Models\Chapter;
+use App\Models\Mirror;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -16,24 +17,38 @@ class VideoController extends Controller
         $chapters = [];
         $validatedData = $request->validate([
             "title" => 'required',
-            "video_url.*" => ['nullable', 'regex:/.*http.+\..+/'],
-            "video_url.0" => ['required', 'regex:/.*http.+\..+/'],
             "thumbnail" => 'image|file',
             "tags" => "nullable",
             "description" => "nullable"
         ]);
 
-        foreach ($validatedData["video_url"] as $i => $videoUrl) {
-            $urlIndex = $i == 0 ? "" : "_" . $i + 1;
-            $validatedData["video_url$urlIndex"] = $videoUrl;
-        };
+        // foreach ($validatedData["video_url"] as $i => $videoUrl) {
+        //     $urlIndex = $i == 0 ? "" : "_" . $i + 1;
+        //     $validatedData["video_url$urlIndex"] = $videoUrl;
+        // };
 
         $validatedData["user_id"] = Auth::user()->id;
         $validatedData["thumbnail"] = $request->file("thumbnail") ? $request->file("thumbnail")->store("thumbnails") : "";
         $validatedData["slug"] = SlugService::createSlug(Video::class, "slug", $validatedData["title"], ["unique" => true]);
 
-
         $video = Video::create($validatedData);
+
+        $validatedUrls = $request->validate([
+            "video_url.*" => ['nullable', 'regex:/.*http.+\..+/'],
+            "video_url.0" => ['required', 'regex:/.*http.+\..+/'],
+            "video_label" => "max:20"
+        ]);
+
+        foreach ($validatedUrls["video_label"] as $i => $validatedLabel) {
+            if ($validatedUrls["video_url"][$i]) {
+                Mirror::create([
+                    "video_label" => $validatedLabel,
+                    "video_url" => $validatedUrls["video_url"][$i],
+                    "video_id" => $video->id
+                ]);
+            };
+        }
+
 
         if ($request->get("start_pos")) {
 
@@ -64,6 +79,7 @@ class VideoController extends Controller
 
         $validatedData = $request->validate([
             "title" => 'required',
+            "video_label.*" => "max:20",
             "video_url.*" => ['nullable', 'regex:/.*http.+\..+/'],
             "video_url.0" => ['required', 'regex:/.*http.+\..+/'],
             "thumbnail" => 'image|file',

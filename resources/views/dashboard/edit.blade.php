@@ -14,24 +14,45 @@
 
         <div class="border-bottom mb-3">
           <div class="mb-3">
-            <label for="video_url[0]" class="form-label">Mirror link 1:</label>
-            <input class="form-control @error("video_url.0") is-invalid @enderror" name="video_url[0]" id="video_url[0]" value="{{ str_replace("ifrome", "iframe", $video->video_url) }}" placeholder="Insert URL" required>
+            <input id="video_label[0]" name="video_label[0]" class="form-label border-0 mb-1 outline-0" value="{{ str_replace("ifrome", "iframe", $video->mirrors[4]["video_label"] ?? "Mirror 1" ) }}"><label class="btn badge bg-secondary" for="video_label[0]">Edit label</label>
+            <input class="form-control @error("video_url.0") is-invalid @enderror" name="video_url[0]" id="video_url[0]" value="{{ str_replace("ifrome", "iframe", $video->mirrors[0]["video_url"]) }}" placeholder="Insert URL" required>
           </div>
           <div class="mb-3">
-            <label for="video_url[1]" class="form-label">Mirror link 2:</label>
-            <input class="form-control @error("video_url.1") is-invalid @enderror" name="video_url[1]" id="video_url[1]" value="{{ str_replace("ifrome", "iframe", $video->video_url_2) }}" placeholder="(Optional) Insert URL">
+            <input id="video_label[1]" name="video_label[1]" class="form-label border-0 mb-1 outline-0" value="{{ str_replace("ifrome", "iframe", $video->mirrors[4]["video_label"] ?? "Mirror 2" ) }}"><label class="btn badge bg-secondary" for="video_label[1]">Edit label</label>
+            <input class="form-control @error("video_url.1") is-invalid @enderror" name="video_url[1]" id="video_url[1]" value="{{ str_replace("ifrome", "iframe", $video->mirrors[1]["video_url"]) }}" placeholder="(Optional) Insert URL">
           </div>
           <div class="mb-3">
-            <label for="video_url[2]" class="form-label">Mirror link 3:</label>
-            <input class="form-control @error("video_url.2") is-invalid @enderror" name="video_url[2]" id="video_url[2]" value="{{ str_replace("ifrome", "iframe", $video->video_url_3) }}" placeholder="(Optional) Insert URL">
+            <input id="video_label[2]" name="video_label[2]" class="form-label border-0 mb-1 outline-0" value="{{ str_replace("ifrome", "iframe", $video->mirrors[4]["video_label"] ?? "Mirror 3" ) }}"><label class="btn badge bg-secondary" for="video_label[2]">Edit label</label>
+            <input class="form-control @error("video_url.2") is-invalid @enderror" name="video_url[2]" id="video_url[2]" value="{{ str_replace("ifrome", "iframe", $video->mirrors[2]["video_url"]) }}" placeholder="(Optional) Insert URL">
           </div>
           <div class="mb-3">
-            <label for="video_url[3]" class="form-label">Mirror link 4:</label>
-            <input class="form-control @error("video_url.3") is-invalid @enderror" name="video_url[3]" id="video_url[3]" value="{{ str_replace("ifrome", "iframe", $video->video_url_4) }}" placeholder="(Optional) Insert URL">
+            <input id="video_label[3]" name="video_label[3]" class="form-label border-0 mb-1 outline-0" value="{{ str_replace("ifrome", "iframe", $video->mirrors[4]["video_label"] ?? "Mirror 4" ) }}"><label class="btn badge bg-secondary" for="video_label[3]">Edit label</label>
+            <input class="form-control @error("video_url.3") is-invalid @enderror" name="video_url[3]" id="video_url[3]" value="{{ str_replace("ifrome", "iframe", $video->mirrors[3]["video_url"] ?? "" ) }}" placeholder="(Optional) Insert URL">
           </div>
           <div class="mb-3">
-            <label for="video_url[4]" class="form-label">Mirror link 5:</label>
-            <input class="form-control @error("video_url.4") is-invalid @enderror" name="video_url[4]" id="video_url[4]" value="{{ str_replace("ifrome", "iframe", $video->video_url_5) }}" placeholder="(Optional) Insert URL">
+            <input id="video_label[4]" name="video_label[4]" class="form-label border-0 mb-1 outline-0" value="{{ str_replace("ifrome", "iframe", $video->mirrors[4]["video_label"] ?? "Mirror 5" ) }}"><label class="btn badge bg-secondary" for="video_label[4]">Edit label</label>
+            <input class="form-control @error("video_url.4") is-invalid @enderror" name="video_url[4]" id="video_url[4]" value="{{ str_replace("ifrome", "iframe", $video->mirrors[4]["video_url"] ?? "" ) }}" placeholder="(Optional) Insert URL">
+          </div>
+          <div class="mb-3">
+            <input name="video_label[5]" id="video_label[5]" class="form-label border-0 mb-1 outline-0" value="{{ str_replace("ifrome", "iframe", $video->mirrors[4]["video_label"] ?? "Mirror 6" ) }}"><label class="btn badge bg-secondary" for="video_label[5]">Edit label</label>
+            <input pattern=".*http.+\..+" class="form-control @error("video_url.5") is-invalid @enderror" name="video_url[5]" value="{{ str_replace("ifrome", "iframe", $video->mirrors[5]["video_url"] ?? "" ) }}" id="video_url[5]" placeholder="(Optional) Insert URL">
+            @error("video_url.5")
+          <p class="invalid-feedback">{{ $message }}</p>
+            @enderror
+          </div>
+          <div class="mb-3">
+            <input name="video_label[6]" id="video_label[6]" class="form-label border-0 mb-1 outline-0" value="{{ str_replace("ifrome", "iframe", $video->mirrors[4]["video_label"] ?? "Mirror 7" ) }}"><label class="btn badge bg-secondary" for="video_label[6]">Edit label</label>
+            <input pattern=".*http.+\..+" class="form-control @error("video_url.6") is-invalid @enderror" name="video_url[6]" value="{{ str_replace("ifrome", "iframe", $video->mirrors[6]["video_url"] ?? "" ) }}" id="video_url[6]" placeholder="(Optional) Insert URL">
+            @error("video_url.6")
+          <p class="invalid-feedback">{{ $message }}</p>
+            @enderror
+          </div>
+          <div class="mb-3">
+            <input name="video_label[7]" id="video_label[7]" class="form-label border-0 mb-1 outline-0" value="{{ str_replace("ifrome", "iframe", $video->mirrors[4]["video_label"] ?? "Mirror 8" ) }}"><label class="btn badge bg-secondary" for="video_label[7]">Edit label</label>
+            <input pattern=".*http.+\..+" class="form-control @error("video_url.7") is-invalid @enderror" name="video_url[7]" value="{{ str_replace("ifrome", "iframe", $video->mirrors[7]["video_url"] ?? "" ) }}" id="video_url[7]" placeholder="(Optional) Insert URL">
+            @error("video_url.7")
+          <p class="invalid-feedback">{{ $message }}</p>
+            @enderror
           </div>
           <div class="mb-3 row">
             <div class="col-2 @if(!$video->thumbnail)

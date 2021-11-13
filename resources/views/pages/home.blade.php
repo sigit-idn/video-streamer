@@ -13,6 +13,9 @@
     <?php
     if ($videos[0]) {
         $headerVideo = $videos[0];
+        if (count($videos[0]->mirrors)) {
+            $headerVideo["video_url"] = $videos[0]->mirrors[0]["video_url"];
+        }
         $headerYoutubeVideoID = [];
         if (!preg_match("/(\w|-|_){11}/", $headerVideo["video_url"], $headerYoutubeVideoID)) {
             $headerYoutubeVideoID = [""];
@@ -65,11 +68,10 @@
                                   <div class="gen-movie-contain">
                                       <div class="gen-movie-img">
                                           <?php
-                                          $video["video_url"] = str_replace("ifrome", "iframe", $video["video_url"]);
-                                          $video["video_url_2"] = str_replace("ifrome", "iframe", $video["video_url_2"]);
-                                          $video["video_url_3"] = str_replace("ifrome", "iframe", $video["video_url_3"]);
-                                          $video["video_url_4"] = str_replace("ifrome", "iframe", $video["video_url_4"]);
-                                          $video["video_url_5"] = str_replace("ifrome", "iframe", $video["video_url_5"]);
+                                          if(count($video->mirrors)) {
+                                              $video["video_url"] = str_replace("ifrome", "iframe", $video->mirrors[0]["video_url"]);
+                                            }
+
                                             $youtubeVideoID = [];
                                             if (!preg_match("/(\w|-|_){11}/", $video["video_url"], $youtubeVideoID)) {
                                                 $youtubeVideoID = [""];

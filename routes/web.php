@@ -28,6 +28,8 @@ Route::get("/video/{video:slug}", [PageController::class, "singleVideo"]);
 Route::get("/dashboard",  [PageController::class, "dashboard"])->middleware("auth");
 Route::get("/dashboard/post", [PageController::class, "post"])->middleware("auth");
 Route::get("/dashboard/edit/{video:slug}", [PageController::class, "edit"])->middleware("auth");
+Route::get('/contact', [PageController::class, "contact"]);
+Route::post("/contact", [PageController::class, "sendMessage"]);
 
 Route::put("/add-view/{video:slug}", [CounterController::class, "addView"]);
 Route::put("/add-click/{chapter}", [CounterController::class, "addLinkClick"]);
