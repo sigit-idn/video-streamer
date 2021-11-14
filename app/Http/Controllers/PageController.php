@@ -37,7 +37,7 @@ class PageController extends Controller
     public function sendMessage(Request $request)
     {
         $answer = "circle"; //Write the verification answer here
-        $to = "sigit.idn@gmail.com";
+        $to = "sigit.idn@gmail.com"; //Change with your email
         $subject = $request->title;
 
         $message = "
@@ -98,8 +98,12 @@ class PageController extends Controller
 
     public function post()
     {
+        $question = "What is the geometric figure of X square + Y square = 8?"; //Write the verification question here
+        $answer = "circle"; //Write the verification answer here
         return view("dashboard.post", [
-            "title" => "Post a Video"
+            "title" => "Post a Video",
+            "question" => $question,
+            "answer" => $answer
         ]);
     }
 

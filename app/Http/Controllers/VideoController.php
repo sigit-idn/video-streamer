@@ -19,7 +19,8 @@ class VideoController extends Controller
             "title" => 'required',
             "thumbnail" => 'image|file',
             "tags" => "nullable",
-            "description" => "nullable"
+            "description" => "nullable",
+            "answer" => "regex:/^\s*$request->right_answer$\s*/"
         ]);
 
         // foreach ($validatedData["video_url"] as $i => $videoUrl) {
@@ -31,12 +32,13 @@ class VideoController extends Controller
         $validatedData["thumbnail"] = $request->file("thumbnail") ? $request->file("thumbnail")->store("thumbnails") : "";
         $validatedData["slug"] = SlugService::createSlug(Video::class, "slug", $validatedData["title"], ["unique" => true]);
 
+        unset($validatedData["answer"]);
         $video = Video::create($validatedData);
 
         $validatedUrls = $request->validate([
             "video_url.*" => ['nullable', 'regex:/.*http.+\..+/'],
             "video_url.0" => ['required', 'regex:/.*http.+\..+/'],
-            "video_label" => "max:20"
+            "video_label.*" => "max:20"
         ]);
 
         foreach ($validatedUrls["video_label"] as $i => $validatedLabel) {
@@ -70,6 +72,7 @@ class VideoController extends Controller
             }
         }
 
+
         return redirect("/dashboard")->with("success", "Created video '$video->title' Successfully");
     }
 
@@ -79,18 +82,29 @@ class VideoController extends Controller
 
         $validatedData = $request->validate([
             "title" => 'required',
-            "video_label.*" => "max:20",
-            "video_url.*" => ['nullable', 'regex:/.*http.+\..+/'],
-            "video_url.0" => ['required', 'regex:/.*http.+\..+/'],
             "thumbnail" => 'image|file',
             "tags" => "nullable",
             "description" => "nullable"
         ]);
 
-        foreach ($validatedData["video_url"] as $i => $videoUrl) {
-            $urlIndex = $i == 0 ? "" : "_" . $i + 1;
-            $validatedData["video_url$urlIndex"] = $videoUrl;
-        };
+
+        $validatedUrls = $request->validate([
+            "video_url.*" => ['nullable', 'regex:/.*http.+\..+/'],
+            "video_url.0" => ['required', 'regex:/.*http.+\..+/'],
+            "video_label.*" => "max:20"
+        ]);
+
+        Mirror::where("video_id", $video->id)->delete();
+
+        foreach ($validatedUrls["video_label"] as $i => $validatedLabel) {
+            if ($validatedUrls["video_url"][$i]) {
+                Mirror::create([
+                    "video_label" => $validatedLabel,
+                    "video_url" => $validatedUrls["video_url"][$i],
+                    "video_id" => $video->id
+                ]);
+            };
+        }
 
         $validatedData["thumbnail"] = $request->file("thumbnail")
             ? $request->file("thumbnail")->store("thumbnails")

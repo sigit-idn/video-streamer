@@ -82,7 +82,7 @@
                                                     preg_match('/(\w|-|_){11}/', $video['video_url'], $youtubeVideoID);
                                                     ?>
                                                     <a href="/video/{{ $video->slug }}">
-                                                        <img src="$video['thumbnail'] ? '/storage/' . $video['thumbnail'] : (preg_match('/youtu/', $video['video_url']) ? 'https://i.ytimg.com/vi/' . $youtubeVideoID[0] . '/mqdefault.jpg' : '/images/favicon.png') }}"
+                                                        <img src="{{ $video['thumbnail'] ? '/storage/' . $video['thumbnail'] : (preg_match('/youtu/', $video['video_url']) ? 'https://i.ytimg.com/vi/' . $youtubeVideoID[0] . '/mqdefault.jpg' : '/images/favicon.png') }}"
                                                             alt="{{ $video['title'] }}">
                                                     </a>
                                                     <div class="gen-movie-action">

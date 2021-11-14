@@ -167,6 +167,15 @@
                         <p class="invalid-feedback">{{ $message }}</p>
                     @enderror
                 </div>
+                <div class="mb-3">
+                    <label for="answer" class="form-label">{{ $question }}</label>
+                    <input type="hidden" name="right_answer" value="{{ $answer }}">
+                    <input class="form-control @error('answer') is-invalid @enderror" name="answer" id="answer"
+                        placeholder="Insert answer" value="{{ old('answer') }}">
+                    @error('answer')
+                        <p class="invalid-feedback">{{ $message }}</p>
+                    @enderror
+                </div>
             </div>
 
             <div class="d-flex justify-content-end align-items-center">
