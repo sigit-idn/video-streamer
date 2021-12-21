@@ -42,7 +42,7 @@ var description = videoDescription.innerHTML;
 videoDescription.innerHTML = excerpt;
 
 var isMore = true;
-var discriptionToggle = document.getElementById("descriptionToggle");
+var descriptionToggle = document.getElementById("descriptionToggle");
 if (descriptionToggle) {
     descriptionToggle.addEventListener("click", function (event) {
         isMore = !isMore;

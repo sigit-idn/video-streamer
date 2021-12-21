@@ -47,8 +47,10 @@
                         ?>
 
                         <td><img src="
-                        {{                         $video['thumbnail'] ? '/storage/' . $video['thumbnail'] : 'https://i.ytimg.com/vi/' . $youtubeVideoID[0] . '/mqdefault.jpg' }}
-                        " width="100"></td>
+                                                                                                                                                {{ $video['thumbnail'] ? '/storage/' . $video['thumbnail'] : 'https://i.ytimg.com/vi/' . $youtubeVideoID[0] . '/mqdefault.jpg' }}
+                                                                                                                                                "
+                                width="100">
+                        </td>
                         <td>{{ $video['title'] }}</td>
                         @if (Auth::user()->is_admin)
                             <td>{{ $video->user['username'] ?? '' }}</td>
@@ -64,16 +66,15 @@
                             </div>
                         </td>
                         <td>
-                            <div class="input-group">
+                            <div class="input-group flex-nowrap">
                                 <span class="form-control rounded-0 rounded-start bg-transparent" id="pageViews">
                                     {{ $video->page_views }}
                                 </span>
-                                <div>
-                                    <button type="button" class="btn btn-secondary rounded-0 rounded-end" id="resetViews"
-                                        data-slug="{{ $video->slug }}" data-csrf-token="{{ csrf_token() }}">
-                                        Reset
-                                    </button>
-                                </div>
+                                <button type="button" class="btn btn-secondary rounded-0 rounded-end"
+                                    onclick="resetViews(this)" data-slug="{{ $video->slug }}"
+                                    data-csrf-token="{{ csrf_token() }}">
+                                    Reset
+                                </button>
                         </td>
                     </tr>
                 @endforeach
@@ -107,18 +108,20 @@
     @endforeach
 
     <script>
-        document.querySelector('#resetViews').onclick = ({
-            target
-        }) => {
+        function resetViews(target) {
             if (confirm("Are you sure to reset page Views?")) {
                 fetch("/dashboard/reset-views/" + target.dataset.slug, {
-                        headers: {
-                            "X-CSRF-Token": target.dataset.csrfToken
-                        },
-                        method: "put"
-                    })
-                    .then(() => document.querySelector('#pageViews').innerHTML = 0)
+                    headers: {
+                        "X-CSRF-Token": target.dataset.csrfToken,
+                    },
+                    method: "put",
+                }).then(function() {
+                    document.querySelector("#pageViews").innerHTML = 0
+                    window.location.reload()
+                }).catch(function(err) {
+                    console.error(err);
+                });
             }
-        }
+        };
     </script>
 @endsection
